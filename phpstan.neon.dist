@@ -1,0 +1,7 @@
+parameters:
+	customRulesetUsed: false
+	level: max
+	bootstrapFiles:
+		- tests/bootstrap.php
+	paths:
+		- src
