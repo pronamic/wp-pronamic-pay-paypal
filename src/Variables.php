@@ -21,7 +21,7 @@ class Variables {
 	/**
 	 * Variables.
 	 *
-	 * @var array
+	 * @var array<string, string>
 	 */
 	private $variables;
 
@@ -44,7 +44,7 @@ class Variables {
 	/**
 	 * Specifying button type — cmd
 	 *
-	 * The cmd variable is always required in a FORM. Its value determines which 
+	 * The cmd variable is always required in a FORM. Its value determines which
 	 * PayPal Payments Standard checkout experience you are using to obtain payment.
 	 *
 	 * @link https://developer.paypal.com/docs/paypal-payments-standard/integration-guide/formbasics/?mark=cmd#specifying-button-type--cmd
@@ -61,7 +61,7 @@ class Variables {
 	 * @param bool $upload Upload.
 	 */
 	public function set_upload( $upload ) {
-		$this->set_value( 'upload', ( true === $upload ) ? '1' : '0' );
+		$this->set_value( 'upload', true === $upload ? '1' : '0' );
 	}
 
 	/**
@@ -77,7 +77,7 @@ class Variables {
 	/**
 	 * Get array.
 	 *
-	 * @return array
+	 * @return array<string, string>
 	 */
 	public function get_array() {
 		return $this->variables;
