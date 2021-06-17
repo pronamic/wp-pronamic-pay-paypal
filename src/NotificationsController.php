@@ -11,6 +11,8 @@
 namespace Pronamic\WordPress\Pay\Gateways\PayPal;
 
 use WP_REST_Request;
+use Pronamic\WordPress\Http\Facades\Http;
+use Pronamic\WordPress\Pay\Payments\PaymentStatus;
 
 /**
  * Notification controller
@@ -42,15 +44,28 @@ class NotificationsController {
 	public function rest_api_init() {
 		\register_rest_route(
 			Integration::REST_ROUTE_NAMESPACE,
-			'/ipn-listener/(?P<id>[\d]+)',
+			'/ipn-listener',
 			array(
+				/**
+				 * IPN and PDT variables.
+				 * 
+				 * @link https://developer.paypal.com/docs/api-basics/notifications/ipn/IPNandPDTVariables/
+				 */
 				'args'                => array(
-					'id' => array(
-						'description' => __( 'PayPal gateway configuration ID.', 'pronamic_ideal' ),
-						'type'        => 'integer',
+					'custom' => array(
+						'description' => \__( 'Custom.', 'pronamic_ideal' ),
+						'type'        => 'string',
+					),
+					'payment_status' => array(
+						'description' => \__( 'The status of the payment.', 'pronamic_ideal' ),
+						'type'        => 'string',
+					),
+					'txn_id'         => array(
+						'description' => \__( 'The merchant\'s original transaction identification number for the payment from the buyer, against which the case was registered.', 'pronamic_ideal' ),
+						'type'        => 'string',
 					),
 				),
-				'methods'             => array( 'GET', 'POST' ),
+				'methods'             => 'POST',
 				'callback'            => array( $this, 'rest_api_paypal_ipn' ),
 				'permission_callback' => '__return_true',
 			)
@@ -64,6 +79,152 @@ class NotificationsController {
 	 * @return object
 	 */
 	public function rest_api_paypal_ipn( WP_REST_Request $request ) {
-		return true;
+		$body = $request->get_body();
+
+		$custom = $request->get_param( 'custom' );
+
+		if ( empty( $custom ) ) {
+			return new \WP_Error(
+				'rest_paypal_empty_custom_variable',
+				\__( 'Empty `custom` PayPal variable.', 'pronamic_ideal ' ),
+				array(
+					'status' => 200,
+				)
+			);
+		}
+
+		$payment = \get_pronamic_payment( $custom );
+
+		if ( null === $payment ) {
+			return new \WP_Error(
+				'rest_paypal_empty_custom_variable',
+				\sprintf(
+					\__( 'No payment found by `custom` variable: %s.', 'pronamic_ideal ' ),
+					$custom
+				),
+				array(
+					'status' => 200,
+				)
+			);
+		}
+
+		/**
+		 * Instant Payment Notification Post Back URL.
+		 * 
+		 * @link https://developer.paypal.com/docs/api-basics/notifications/ipn/ht-ipn/
+		 * @link https://developer.paypal.com/docs/api-basics/notifications/ipn/IPNImplementation/#specs
+		 */
+		$ipn_pb_url = 'https://ipnpb.sandbox.paypal.com/cgi-bin/webscr';
+
+		/**
+		 * Prefix the returned message with the `cmd=_notify-validate` variable,
+		 * but do not change the message fields, the order of the fields, or
+		 * the character encoding from the original message.
+		 */
+		$pb_body = 'cmd=_notify-validate&' . $body;
+
+		/**
+		 * Send response messages back to PayPal.
+		 */
+		$response = Http::post( $ipn_pb_url, array(
+			'headers' => array(
+				/**
+				 * Please ensure you provide a User-Agent header value that 
+				 * describes your IPN listener, such as,
+				 * `PHP-IPN-VerificationScript`.
+				 */
+				'User-Agent' => 'Pronamic-Pay-IPN-VerificationScript',
+			),
+			'body'    => $pb_body,
+		) );
+
+		$result = $response->body();
+
+		if ( 'INVALID' === $result ) {
+			return new \WP_Error(
+				'rest_paypal_ipn_invalid',
+				\__( 'IPN request invalid.', 'pronamic_ideal ' ),
+				array(
+					'status' => 200,
+				)
+			);
+		}
+
+		if ( 'VERIFIED' !== $result ) {
+			return new \WP_Error(
+				'rest_paypal_ipn_not_verified',
+				\__( 'IPN request not verified.', 'pronamic_ideal ' ),
+				array(
+					'status' => 200,
+				)
+			);
+		}
+
+		/**
+		 * Payment.
+		 */
+		$payment->set_transaction_id( $request->get_param( 'txn_id' ) );
+
+		switch ( $request->get_param( 'payment_status' ) ) {
+			case 'Canceled_Reversal':
+
+				break;
+			case 'Completed':
+				$payment->set_status( PaymentStatus::SUCCESS );
+
+				break;
+			case 'Created':
+
+				break;
+			case 'Denied':
+
+				break;
+			case 'Expired':
+				$payment->set_status( PaymentStatus::EXPIRED );
+
+				break;
+			case 'Failed':
+				$payment->set_status( PaymentStatus::FAILURE );
+
+				break;
+			case 'Pending':
+				$payment->set_status( PaymentStatus::OPEN );
+
+				break;
+			case 'Refunded':
+
+				break;
+			case 'Reversed':
+				$payment->set_status( PaymentStatus::RESERVED );
+
+				break;
+			case 'Processed':
+
+				break;
+			case 'Voided':
+
+				break;
+		}
+
+		$note = \sprintf(
+			'<p>%s</p><pre>%s</pre>',
+			\__( 'Received PayPal IPN request:', 'pronamic_ideal' ),
+			(string) \wp_json_encode( $request->get_params(), \JSON_PRETTY_PRINT )
+		);
+
+		$payment->add_note( $note );
+
+		$payment->save();
+
+		/**
+		 * Result.
+		 */
+		$result = (object) array(
+			'body'   => $request->get_body(),
+			'custom' => $request->get_param( 'custom' ),
+			'result' => $result,
+		);
+
+		return $result;
 	}
 }

@@ -36,6 +36,7 @@
 		"ext-intl": "*",
 		"ext-json": "*",
 		"justinrainbow/json-schema": "^5.2",
+		"pronamic/wp-http": "^1.1",
 		"pronamic/wp-money": "^1.2",
 		"wp-pay/core": "^2.6"
 	},

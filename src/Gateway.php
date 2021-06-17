@@ -93,11 +93,72 @@ class Gateway extends Core_Gateway {
 		$variables->set_cmd( '_cart' );
 		$variables->set_upload( true );
 
+		/**
+		 * Customer.
+		 */
+		$customer = $payment->get_customer();
+
+		if ( null !== $customer ) {
+			$variables->set_optional_value( 'email', $customer->get_email() );
+
+			$name = $customer->get_name();
+
+			if ( null !== $name ) {
+				$variables->set_optional_value( 'first_name', $name->get_first_name() );
+				$variables->set_optional_value( 'last_name', $name->get_last_name() );
+			}
+		}
+
+		/**
+		 * Currency
+		 */
+		$currency_code = $payment->get_total_amount()->get_currency()->get_alphabetic_code();
+
+		if ( null !== $currency_code ) { 
+			$variables->set_value( 'currency_code', $currency_code );
+		}
+
+		/**
+		 * Items.
+		 */
 		$x = 1;
 
 		$variables->set_value( 'item_name_' . $x, 'Payment ' . $payment->get_id() );
 		$variables->set_value( 'amount_' . $x, $payment->get_total_amount()->get_value() );
 
+		/**
+		 * Return.
+		 */
+		$variables->set_value( 'return', $payment->get_return_url() );
+
+		/**
+		 * Notify URL.
+		 */
+		$notify_url = \rest_url( Integration::REST_ROUTE_NAMESPACE . '/ipn-listener' );
+
+		/**
+		 * Filters the PayPal notify URL.
+		 *
+		 * If you want to debug the PayPal notify URL you can use this filter
+		 * to override the report URL. You could for example use a service like
+		 * https://webhook.site/ to inspect the notify requests from PayPal.
+		 *
+		 * @param string $notify_url PayPal notify URL.
+		 */
+		$notify_url = \apply_filters( 'pronamic_pay_paypal_notify_url', $notify_url );
+
+		$variables->set_value( 'notify_url', $notify_url );
+
+		/**
+		 * Custom.
+		 * 
+		 * Pass-through variable for your own tracking purposes, which buyers do not see.
+		 */
+		$variables->set_value( 'custom', $payment->get_id() );
+
+		/**
+		 * URL.
+		 */
 		$url = \add_query_arg( $variables->get_array(), $url );
 
 		$payment->set_action_url( $url );

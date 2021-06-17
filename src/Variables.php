@@ -75,6 +75,18 @@ class Variables {
 	}
 
 	/**
+	 * Set value.
+	 *
+	 * @param string $key   Key.
+	 * @param string $value Value.
+	 */
+	public function set_optional_value( $key, $value ) {
+		if ( null !== $value ) {
+			$this->set_value( $key, $value );
+		}
+	}
+
+	/**
 	 * Get array.
 	 *
 	 * @return array
