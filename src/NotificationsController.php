@@ -30,7 +30,7 @@ class NotificationsController {
 	 * @return void
 	 */
 	public function setup() {
-		add_action( 'rest_api_init', array( $this, 'rest_api_init' ) );
+		\add_action( 'rest_api_init', array( $this, 'rest_api_init' ) );
 	}
 
 	/**
@@ -38,7 +38,6 @@ class NotificationsController {
 	 *
 	 * @link https://developer.wordpress.org/rest-api/extending-the-rest-api/adding-custom-endpoints/
 	 * @link https://developer.wordpress.org/reference/hooks/rest_api_init/
-	 *
 	 * @return void
 	 */
 	public function rest_api_init() {

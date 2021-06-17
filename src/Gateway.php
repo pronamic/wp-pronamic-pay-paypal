@@ -171,6 +171,6 @@ class Gateway extends Core_Gateway {
 	 * @return void
 	 */
 	public function update_status( Payment $payment ) {
-		
+		// @todo handle status updates
 	}
 }

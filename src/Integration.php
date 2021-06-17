@@ -57,7 +57,12 @@ class Integration extends AbstractGatewayIntegration {
 	 * Setup.
 	 */
 	public function setup() {
-		\add_filter( 'pronamic_gateway_configuration_display_value_' . $this->get_id(), array( $this, 'gateway_configuration_display_value' ), 10, 2 );
+		\add_filter(
+			'pronamic_gateway_configuration_display_value_' . $this->get_id(),
+			array( $this, 'gateway_configuration_display_value' ),
+			10,
+			2
+		);
 
 		// Notifications controller.
 		$notifications_controller = new NotificationsController();
@@ -94,10 +99,7 @@ class Integration extends AbstractGatewayIntegration {
 			'title'    => \_x( 'Email', 'paypal', 'pronamic_ideal' ),
 			'type'     => 'text',
 			'classes'  => array( 'regular-text', 'code' ),
-			'tooltip'  => \__(
-				'Enter your PayPal account\'s email.',
-				'pronamic_ideal'
-			),
+			'tooltip'  => \__( 'Enter your PayPal account\'s email.', 'pronamic_ideal' ),
 		);
 
 		// Return fields.
