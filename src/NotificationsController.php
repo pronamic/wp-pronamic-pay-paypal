@@ -63,6 +63,11 @@ class NotificationsController {
 						'description' => \__( 'The merchant\'s original transaction identification number for the payment from the buyer, against which the case was registered.', 'pronamic_ideal' ),
 						'type'        => 'string',
 					),
+					'parent_txn_id'  => array(
+						'description' => \__( 'In the case of a refund, reversal, or canceled reversal, this variable contains the `txn_id` of the original transaction.', 'pronamic_ideal' ),
+						'type'        => 'string',
+
+					),
 					'mc_currency'       => array(
 						'description' => \__( 'For payment IPN notifications, this is the currency of the payment.', 'pronamic_ideal' ),
 						'type'        => 'string',
@@ -170,13 +175,12 @@ class NotificationsController {
 		/**
 		 * Payment.
 		 */
-		$payment->set_transaction_id( $request->get_param( 'txn_id' ) );
-
 		switch ( $request->get_param( 'payment_status' ) ) {
 			case 'Canceled_Reversal':
 
 				break;
 			case 'Completed':
+				$payment->set_transaction_id( $request->get_param( 'txn_id' ) );
 				$payment->set_status( PaymentStatus::SUCCESS );
 
 				break;
@@ -206,6 +210,7 @@ class NotificationsController {
 
 				$refunded_amount = $gross->absolute();
 
+				$payment->set_transaction_id( $request->get_param( 'parent_txn_id' ) );
 				$payment->set_refunded_amount( $refunded_amount );
 
 				break;
