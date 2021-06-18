@@ -63,6 +63,14 @@ class NotificationsController {
 						'description' => \__( 'The merchant\'s original transaction identification number for the payment from the buyer, against which the case was registered.', 'pronamic_ideal' ),
 						'type'        => 'string',
 					),
+					'mc_currency'       => array(
+						'description' => \__( 'For payment IPN notifications, this is the currency of the payment.', 'pronamic_ideal' ),
+						'type'        => 'string',
+					),
+					'mc_gross'       => array(
+						'description' => \__( 'Full amount of the customer\'s payment, before transaction fee is subtracted. Equivalent to payment_gross for USD payments. If this amount is negative, it signifies a refund or reversal, and either of those payment statuses can be for the full or partial amount of the original transaction.', 'pronamic_ideal' ),
+						'type'        => 'string',
+					),
 				),
 				'methods'             => 'POST',
 				'callback'            => array( $this, 'rest_api_paypal_ipn' ),
@@ -191,6 +199,14 @@ class NotificationsController {
 
 				break;
 			case 'Refunded':
+				$mc_gross    = $request->get_param( 'mc_gross' );
+				$mc_currency = $request->get_param( 'mc_currency' );
+
+				$gross = new Money( $mc_gross, $mc_currency );
+
+				$refunded_amount = $gross->absolute();
+
+				$payment->set_refunded_amount( $refunded_amount );
 
 				break;
 			case 'Reversed':
