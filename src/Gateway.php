@@ -71,6 +71,56 @@ class Gateway extends Core_Gateway {
 	}
 
 	/**
+	 * Get the PayPal shopping cart variables from a payment.
+	 * 
+	 * @param Payment $payment Payment.
+	 * @return array
+	 */
+	private function get_shopping_cart_variables( Payment $payment ) {
+		$variables = array();
+
+		$lines = $payment->get_lines();
+
+		if ( null === $lines || 0 === \count( $lines ) ) {
+			$x = 1;
+
+			$variables[ 'item_name_' . $x ] = 'Payment ' . $payment->get_id();
+			$variables[ 'amount_' . $x ]    = $payment->get_total_amount()->get_value();
+
+			return $variables;
+		}
+
+		$x = 1;
+
+		foreach ( $lines as $line ) {
+			$name = \sprintf(
+				/* translators: %s: item index */
+				\__( 'Item %s', 'pronamic_ideal' ),
+				$x
+			);
+
+			$line_name = $line->get_name();
+
+			if ( null !== $line_name && '' !== $line_name ) {
+				$name = $line_name;
+			}
+
+			$variables[ 'item_name_' . $x ] = $name;
+			$variables[ 'amount_' . $x ]    = $line->get_total_amount()->get_value();
+
+			$tax_amount = $line->get_tax_amount();
+
+			if ( null !== $tax_amount ) {
+				$variables[ 'tax_' . $x ] = $tax_amount->get_value();
+			}
+
+			$x++;
+		}
+
+		return $variables;
+	}
+
+	/**
 	 * Start.
 	 *
 	 * @param Payment $payment Payment.
@@ -121,10 +171,11 @@ class Gateway extends Core_Gateway {
 		/**
 		 * Items.
 		 */
-		$x = 1;
+		$shopping_cart_variables = $this->get_shopping_cart_variables( $payment );
 
-		$variables->set_value( 'item_name_' . $x, 'Payment ' . $payment->get_id() );
-		$variables->set_value( 'amount_' . $x, $payment->get_total_amount()->get_value() );
+		foreach ( $shopping_cart_variables as $key => $value ) {
+			$variables->set_value( $key, $value );
+		}
 
 		/**
 		 * Return.
