@@ -48,6 +48,34 @@ class Config extends GatewayConfig implements \JsonSerializable {
 	}
 
 	/**
+	 * Get the `webscr` URL.
+	 * 
+	 * @link https://developer.paypal.com/docs/paypal-payments-standard/integration-guide/formbasics/
+	 * @return string
+	 */
+	public function get_webscr_url() {
+		if ( 'test' === $this->mode ) {
+			return 'https://www.sandbox.paypal.com/cgi-bin/webscr';
+		}
+
+		return 'https://www.paypal.com/cgi-bin/webscr';
+	}
+
+	/**
+	 * Get the IPN post back URL.
+	 * 
+	 * @link https://developer.paypal.com/docs/api-basics/notifications/ipn/IPNImplementation/#specs
+	 * @return string
+	 */
+	public function get_ipn_pb_url() {
+		if ( 'test' === $this->mode ) {
+			return 'https://ipnpb.sandbox.paypal.com/cgi-bin/webscr';
+		}
+
+		return 'https://ipnpb.paypal.com/cgi-bin/webscr';
+	}
+
+	/**
 	 * JSON serialize.
 	 *
 	 * @return object

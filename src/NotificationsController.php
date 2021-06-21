@@ -25,6 +25,15 @@ use Pronamic\WordPress\Pay\Payments\PaymentStatus;
  */
 class NotificationsController {
 	/**
+	 * Construct notifications controller.
+	 * 
+	 * @param Integration $integration Integration.
+	 */
+	public function __construct( $integration ) {
+		$this->integration = $integration;
+	}
+
+	/**
 	 * Setup.
 	 *
 	 * @return void
@@ -120,13 +129,15 @@ class NotificationsController {
 			);
 		}
 
+		$config = $this->integration->get_config( $payment->config_id );
+
 		/**
 		 * Instant Payment Notification Post Back URL.
 		 * 
 		 * @link https://developer.paypal.com/docs/api-basics/notifications/ipn/ht-ipn/
 		 * @link https://developer.paypal.com/docs/api-basics/notifications/ipn/IPNImplementation/#specs
 		 */
-		$ipn_pb_url = 'https://ipnpb.sandbox.paypal.com/cgi-bin/webscr';
+		$ipn_pb_url = $config->get_ipn_pb_url();
 
 		/**
 		 * Prefix the returned message with the `cmd=_notify-validate` variable,

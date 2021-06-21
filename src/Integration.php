@@ -65,7 +65,7 @@ class Integration extends AbstractGatewayIntegration {
 		);
 
 		// Notifications controller.
-		$notifications_controller = new NotificationsController();
+		$notifications_controller = new NotificationsController( $this );
 
 		$notifications_controller->setup();
 	}

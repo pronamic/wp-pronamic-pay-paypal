@@ -85,7 +85,7 @@ class Gateway extends Core_Gateway {
 		 * @link https://developer.paypal.com/docs/paypal-payments-standard/integration-guide/Appx-websitestandard-htmlvariables/
 		 * @link https://github.com/easydigitaldownloads/easy-digital-downloads/blob/2.9.26/includes/gateways/paypal-standard.php
 		 */
-		$url = 'https://www.sandbox.paypal.com/cgi-bin/webscr';
+		$url = $this->config->get_webscr_url();
 
 		$variables = new Variables();
 

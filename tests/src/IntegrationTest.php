@@ -50,7 +50,7 @@ class IntegrationTest extends \WP_UnitTestCase {
 		$post_id = $this->factory->post->create();
 
 		\update_post_meta( $post_id, '_pronamic_gateway_mode', Gateway::MODE_TEST );
-		\update_post_meta( $post_id, '_pronamic_gateway_email', 'info@pronamic.nl' );
+		\update_post_meta( $post_id, '_pronamic_gateway_paypal_email', 'info@pronamic.nl' );
 
 		$config = $this->integration->get_config( $post_id );
 
