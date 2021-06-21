@@ -219,6 +219,19 @@ class Gateway extends Core_Gateway {
 		$variables->set_value( 'custom', $payment->get_id() );
 
 		/**
+		 * Address.
+		 */
+		$address = $payment->get_billing_address();
+
+		if ( null !== $address ) {
+			$variables->set_optional_value( 'address1', $address->get_line_1() );
+			$variables->set_optional_value( 'address2', $address->get_line_2() );
+			$variables->set_optional_value( 'city', $address->get_city() );
+			$variables->set_optional_value( 'country', $address->get_country_code() );
+			$variables->set_optional_value( 'zip', $address->get_postal_code() );
+		}
+
+		/**
 		 * URL.
 		 */
 		$url = \add_query_arg( $variables->get_array(), $url );
