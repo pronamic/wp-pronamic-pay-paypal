@@ -160,6 +160,17 @@ class Gateway extends Core_Gateway {
 		}
 
 		/**
+		 * Shipping.
+		 * 
+		 * We set the `no_shipping` variable to `1` so there is no prompt for
+		 * an address. For now we require that each extensions requests the
+		 * shipping details.
+		 * 
+		 * @link https://github.com/pronamic/wp-pronamic-pay/issues/158
+		 */
+		$variables->set_value( 'no_shipping', '1' );
+
+		/**
 		 * Currency
 		 */
 		$currency_code = $payment->get_total_amount()->get_currency()->get_alphabetic_code();
