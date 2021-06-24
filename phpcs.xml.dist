@@ -1,23 +1,12 @@
 <?xml version="1.0"?>
 
 <ruleset name="WordPress Pay Gateway: PayPal rules">
-	<config name="minimum_supported_wp_version" value="4.7"/>
-
-	<config name="testVersion" value="5.6-"/>
-
 	<file>.</file>
 
-	<arg name="colors"/>
-	<arg name="extensions" value="php"/>
-	<arg name="parallel" value="8" />
-	<arg value="sp"/>
-
-	<exclude-pattern>node_modules/*</exclude-pattern>
 	<exclude-pattern>tests/bootstrap.php</exclude-pattern>
 	<exclude-pattern>tests/wp-config.php</exclude-pattern>
-	<exclude-pattern>vendor/*</exclude-pattern>
-	<exclude-pattern>wordpress/*</exclude-pattern>
-	<exclude-pattern type="relative">^wp-content/*</exclude-pattern>
+
+	<rule ref="PronamicWP" />
 
 	<rule ref="vendor/slevomat/coding-standard/SlevomatCodingStandard/ruleset.xml">
 		<exclude name="SlevomatCodingStandard.Classes.ClassConstantVisibility.MissingConstantVisibility" />
@@ -67,10 +56,6 @@
 		<exclude-pattern>src/Gateway.php</exclude-pattern>
 		<exclude-pattern>src/NotificationsController.php</exclude-pattern>
 	</rule>
-
-	<rule ref="VariableAnalysis"/>
-
-	<rule ref="PHPCompatibilityWP"/>
 
 	<rule ref="WordPress">
 		<exclude name="WordPress.DB.SlowDBQuery.slow_db_query_meta_key"/>
