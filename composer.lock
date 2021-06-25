@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "2f59ea0e4d09e8c1e8dbd3c263c752db",
+    "content-hash": "1219b733575e3d30e6c1b1422bceac10",
     "packages": [
         {
             "name": "composer/installers",
@@ -2354,16 +2354,16 @@
         },
         {
             "name": "pronamic/wp-coding-standards",
-            "version": "dev-main",
+            "version": "1.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/pronamic/wp-coding-standards.git",
-                "reference": "dc6887a229006af6ba51de8bdbbf8d081710a5b5"
+                "reference": "9670218269a0c620987fc33a897a9e642047a1d0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/pronamic/wp-coding-standards/zipball/dc6887a229006af6ba51de8bdbbf8d081710a5b5",
-                "reference": "dc6887a229006af6ba51de8bdbbf8d081710a5b5",
+                "url": "https://api.github.com/repos/pronamic/wp-coding-standards/zipball/9670218269a0c620987fc33a897a9e642047a1d0",
+                "reference": "9670218269a0c620987fc33a897a9e642047a1d0",
                 "shasum": ""
             },
             "require": {
@@ -2375,7 +2375,6 @@
                 "squizlabs/php_codesniffer": "^3.6",
                 "wp-coding-standards/wpcs": "^2.3"
             },
-            "default-branch": true,
             "type": "phpcodesniffer-standard",
             "notification-url": "https://packagist.org/downloads/",
             "license": [
@@ -2407,7 +2406,7 @@
                 "issues": "https://github.com/pronamic/wp-coding-standards/issues",
                 "source": "https://github.com/pronamic/wp-coding-standards"
             },
-            "time": "2021-06-24T18:43:49+00:00"
+            "time": "2021-06-25T11:45:06+00:00"
         },
         {
             "name": "psr/container",
@@ -5094,9 +5093,7 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": {
-        "pronamic/wp-coding-standards": 20
-    },
+    "stability-flags": [],
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
@@ -5105,5 +5102,5 @@
         "ext-json": "*"
     },
     "platform-dev": [],
-    "plugin-api-version": "2.0.0"
+    "plugin-api-version": "2.1.0"
 }
