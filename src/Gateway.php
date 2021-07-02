@@ -71,6 +71,16 @@ class Gateway extends Core_Gateway {
 	}
 
 	/**
+	 * Format amount.
+	 * 
+	 * @param Money $amount Money.
+	 * @return string
+	 */
+	private function format_amount( Money $amount ) {
+		return $amount->number_format( null, '.', '' );
+	}
+
+	/**
 	 * Get the PayPal shopping cart variables from a payment.
 	 * 
 	 * @param Payment $payment Payment.
@@ -85,7 +95,7 @@ class Gateway extends Core_Gateway {
 			$x = 1;
 
 			$variables[ 'item_name_' . $x ] = 'Payment ' . $payment->get_id();
-			$variables[ 'amount_' . $x ]    = $payment->get_total_amount()->get_value();
+			$variables[ 'amount_' . $x ]    = $this->format_amount( $payment->get_total_amount() );
 
 			return $variables;
 		}
@@ -106,12 +116,12 @@ class Gateway extends Core_Gateway {
 			}
 
 			$variables[ 'item_name_' . $x ] = $name;
-			$variables[ 'amount_' . $x ]    = $line->get_total_amount()->get_value();
+			$variables[ 'amount_' . $x ]    = $this->format_amount( $line->get_total_amount() );
 
 			$tax_amount = $line->get_tax_amount();
 
 			if ( null !== $tax_amount ) {
-				$variables[ 'tax_' . $x ] = $tax_amount->get_value();
+				$variables[ 'tax_' . $x ] = $this->format_amount( $tax_amount );
 			}
 
 			$x++;
