@@ -187,33 +187,33 @@ class NotificationsController {
 		 * Payment.
 		 */
 		switch ( $request->get_param( 'payment_status' ) ) {
-			case 'Canceled_Reversal':
+			case Statuses::CANCELED_REVERSAL:
 
 				break;
-			case 'Completed':
+			case Statuses::COMPLETED:
 				$payment->set_transaction_id( $request->get_param( 'txn_id' ) );
 				$payment->set_status( PaymentStatus::SUCCESS );
 
 				break;
-			case 'Created':
+			case Statuses::CREATED:
 
 				break;
-			case 'Denied':
+			case Statuses::DENIED:
 
 				break;
-			case 'Expired':
+			case Statuses::EXPIRED:
 				$payment->set_status( PaymentStatus::EXPIRED );
 
 				break;
-			case 'Failed':
+			case Statuses::FAILED:
 				$payment->set_status( PaymentStatus::FAILURE );
 
 				break;
-			case 'Pending':
+			case Statuses::PENDING:
 				$payment->set_status( PaymentStatus::OPEN );
 
 				break;
-			case 'Refunded':
+			case Statuses::REFUNDED:
 				$mc_gross    = $request->get_param( 'mc_gross' );
 				$mc_currency = $request->get_param( 'mc_currency' );
 
@@ -225,14 +225,14 @@ class NotificationsController {
 				$payment->set_refunded_amount( $refunded_amount );
 
 				break;
-			case 'Reversed':
+			case Statuses::REVERSED:
 				$payment->set_status( PaymentStatus::RESERVED );
 
 				break;
-			case 'Processed':
+			case Statuses::PROCESSED:
 
 				break;
-			case 'Voided':
+			case Statuses::VOIDED:
 
 				break;
 		}
