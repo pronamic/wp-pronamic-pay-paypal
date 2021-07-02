@@ -191,7 +191,14 @@ class Gateway extends Core_Gateway {
 		/**
 		 * Return.
 		 */
-		$variables->set_value( 'return', $payment->get_return_url() );
+		$variables->set_value( 'return', \urlencode( $payment->get_return_url() ) );
+
+		/**
+		 * Return method.
+		 *
+		 * @link https://developer.paypal.com/docs/paypal-payments-standard/integration-guide/Appx-websitestandard-htmlvariables/#paypal-checkout-page-variables
+		 */
+		$variables->set_value( 'rm', '2' );
 
 		/**
 		 * Notify URL.
@@ -246,6 +253,26 @@ class Gateway extends Core_Gateway {
 	 * @return void
 	 */
 	public function update_status( Payment $payment ) {
-		// @todo handle status updates
+		$valid = $this->client->validate_notification( $_POST );
+
+		if ( ! $valid ) {
+			return;
+		}
+
+		// Transaction ID.
+		if ( \filter_has_var( \INPUT_POST, 'txn_id' ) ) {
+			$payment->set_transaction_id( \filter_input( \INPUT_POST, 'txn_id', \FILTER_SANITIZE_STRING ) );
+		}
+
+		// Status.
+		if ( \filter_has_var( \INPUT_POST, 'payment_status' ) ) {
+			$payment_status = \filter_input( \INPUT_POST, 'payment_status', \FILTER_SANITIZE_STRING );
+
+			$status = Statuses::transform( $payment_status );
+
+			if ( null !== $status ) {
+				$payment->set_status( $status );
+			}
+		}
 	}
 }
