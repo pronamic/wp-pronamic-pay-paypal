@@ -10,6 +10,7 @@
 
 namespace Pronamic\WordPress\Pay\Gateways\PayPal;
 
+use Pronamic\WordPress\Money\Money;
 use Pronamic\WordPress\Pay\Core\Gateway as Core_Gateway;
 use Pronamic\WordPress\Pay\Core\PaymentMethods;
 use Pronamic\WordPress\Pay\Payments\Payment;
@@ -68,66 +69,6 @@ class Gateway extends Core_Gateway {
 	 */
 	public function payment_method_is_required() {
 		return true;
-	}
-
-	/**
-	 * Format amount.
-	 * 
-	 * @param Money $amount Money.
-	 * @return string
-	 */
-	private function format_amount( Money $amount ) {
-		return $amount->number_format( null, '.', '' );
-	}
-
-	/**
-	 * Get the PayPal shopping cart variables from a payment.
-	 * 
-	 * @param Payment $payment Payment.
-	 * @return array
-	 */
-	private function get_shopping_cart_variables( Payment $payment ) {
-		$variables = array();
-
-		$lines = $payment->get_lines();
-
-		if ( null === $lines || 0 === \count( $lines ) ) {
-			$x = 1;
-
-			$variables[ 'item_name_' . $x ] = 'Payment ' . $payment->get_id();
-			$variables[ 'amount_' . $x ]    = $this->format_amount( $payment->get_total_amount() );
-
-			return $variables;
-		}
-
-		$x = 1;
-
-		foreach ( $lines as $line ) {
-			$name = \sprintf(
-				/* translators: %s: item index */
-				\__( 'Item %s', 'pronamic_ideal' ),
-				$x
-			);
-
-			$line_name = $line->get_name();
-
-			if ( null !== $line_name && '' !== $line_name ) {
-				$name = $line_name;
-			}
-
-			$variables[ 'item_name_' . $x ] = $name;
-			$variables[ 'amount_' . $x ]    = $this->format_amount( $line->get_total_amount() );
-
-			$tax_amount = $line->get_tax_amount();
-
-			if ( null !== $tax_amount ) {
-				$variables[ 'tax_' . $x ] = $this->format_amount( $tax_amount );
-			}
-
-			$x++;
-		}
-
-		return $variables;
 	}
 
 	/**
@@ -233,7 +174,7 @@ class Gateway extends Core_Gateway {
 		 * 
 		 * Pass-through variable for your own tracking purposes, which buyers do not see.
 		 */
-		$variables->set_value( 'custom', $payment->get_id() );
+		$variables->set_value( 'custom', (string) $payment->get_id() );
 
 		/**
 		 * Address.
@@ -263,6 +204,7 @@ class Gateway extends Core_Gateway {
 	 * @return void
 	 */
 	public function update_status( Payment $payment ) {
+		// phpcs:ignore WordPress.Security.NonceVerification.Missing
 		$valid = $this->client->validate_notification( $_POST );
 
 		if ( ! $valid ) {
@@ -284,5 +226,65 @@ class Gateway extends Core_Gateway {
 				$payment->set_status( $status );
 			}
 		}
+	}
+
+	/**
+	 * Format amount.
+	 * 
+	 * @param Money $amount Money.
+	 * @return string
+	 */
+	private function format_amount( Money $amount ) {
+		return $amount->number_format( null, '.', '' );
+	}
+
+	/**
+	 * Get the PayPal shopping cart variables from a payment.
+	 * 
+	 * @param Payment $payment Payment.
+	 * @return array<string, string>
+	 */
+	private function get_shopping_cart_variables( Payment $payment ) {
+		$variables = array();
+
+		$lines = $payment->get_lines();
+
+		if ( null === $lines || 0 === \count( $lines ) ) {
+			$x = 1;
+
+			$variables[ 'item_name_' . $x ] = 'Payment ' . $payment->get_id();
+			$variables[ 'amount_' . $x ]    = $this->format_amount( $payment->get_total_amount() );
+
+			return $variables;
+		}
+
+		$x = 1;
+
+		foreach ( $lines as $line ) {
+			$name = \sprintf(
+				/* translators: %s: item index */
+				\__( 'Item %s', 'pronamic_ideal' ),
+				$x
+			);
+
+			$line_name = $line->get_name();
+
+			if ( null !== $line_name && '' !== $line_name ) {
+				$name = $line_name;
+			}
+
+			$variables[ 'item_name_' . $x ] = $name;
+			$variables[ 'amount_' . $x ]    = $this->format_amount( $line->get_total_amount() );
+
+			$tax_amount = $line->get_tax_amount();
+
+			if ( null !== $tax_amount ) {
+				$variables[ 'tax_' . $x ] = $this->format_amount( $tax_amount );
+			}
+
+			$x++;
+		}
+
+		return $variables;
 	}
 }

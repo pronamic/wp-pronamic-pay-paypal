@@ -36,6 +36,7 @@ class Variables {
 	 * Set business.
 	 *
 	 * @param string $email Email.
+	 * @return void
 	 */
 	public function set_business( $email ) {
 		$this->set_value( 'business', $email );
@@ -49,6 +50,7 @@ class Variables {
 	 *
 	 * @link https://developer.paypal.com/docs/paypal-payments-standard/integration-guide/formbasics/?mark=cmd#specifying-button-type--cmd
 	 * @param string $cmd Cmd.
+	 * @return void
 	 */
 	public function set_cmd( $cmd ) {
 		$this->set_value( 'cmd', $cmd );
@@ -59,6 +61,7 @@ class Variables {
 	 *
 	 * @link https://developer.paypal.com/docs/paypal-payments-standard/integration-guide/cart-upload/
 	 * @param bool $upload Upload.
+	 * @return void
 	 */
 	public function set_upload( $upload ) {
 		$this->set_value( 'upload', true === $upload ? '1' : '0' );
@@ -69,6 +72,7 @@ class Variables {
 	 *
 	 * @param string $key   Key.
 	 * @param string $value Value.
+	 * @return void
 	 */
 	public function set_value( $key, $value ) {
 		$this->variables[ $key ] = $value;
@@ -77,8 +81,9 @@ class Variables {
 	/**
 	 * Set value.
 	 *
-	 * @param string $key   Key.
-	 * @param string $value Value.
+	 * @param string      $key   Key.
+	 * @param string|null $value Value.
+	 * @return void
 	 */
 	public function set_optional_value( $key, $value ) {
 		if ( null !== $value ) {

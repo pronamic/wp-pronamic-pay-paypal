@@ -39,7 +39,7 @@ class Client {
 	/**
 	 * Validate Payment Data Transfer (PDT) notification.
 	 *
-	 * @param array $data Request data.
+	 * @param string[] $data Request data.
 	 * @return bool
 	 */
 	public function validate_notification( $data ) {

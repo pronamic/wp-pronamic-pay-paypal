@@ -10,9 +10,10 @@
 
 namespace Pronamic\WordPress\Pay\Gateways\PayPal;
 
-use WP_REST_Request;
 use Pronamic\WordPress\Http\Facades\Http;
+use Pronamic\WordPress\Money\Money;
 use Pronamic\WordPress\Pay\Payments\PaymentStatus;
+use WP_REST_Request;
 
 /**
  * Notification controller
@@ -25,11 +26,18 @@ use Pronamic\WordPress\Pay\Payments\PaymentStatus;
  */
 class NotificationsController {
 	/**
+	 * PayPal integration object.
+	 * 
+	 * @var Integration
+	 */
+	private $integration;
+
+	/**
 	 * Construct notifications controller.
 	 * 
 	 * @param Integration $integration Integration.
 	 */
-	public function __construct( $integration ) {
+	public function __construct( Integration $integration ) {
 		$this->integration = $integration;
 	}
 
@@ -60,7 +68,7 @@ class NotificationsController {
 				 * @link https://developer.paypal.com/docs/api-basics/notifications/ipn/IPNandPDTVariables/
 				 */
 				'args'                => array(
-					'custom' => array(
+					'custom'         => array(
 						'description' => \__( 'Custom.', 'pronamic_ideal' ),
 						'type'        => 'string',
 					),
@@ -69,20 +77,32 @@ class NotificationsController {
 						'type'        => 'string',
 					),
 					'txn_id'         => array(
-						'description' => \__( 'The merchant\'s original transaction identification number for the payment from the buyer, against which the case was registered.', 'pronamic_ideal' ),
+						'description' => \__(
+							'The merchant\'s original transaction identification number for the payment from the buyer, against which the case was registered.',
+							'pronamic_ideal' 
+						),
 						'type'        => 'string',
 					),
 					'parent_txn_id'  => array(
-						'description' => \__( 'In the case of a refund, reversal, or canceled reversal, this variable contains the `txn_id` of the original transaction.', 'pronamic_ideal' ),
+						'description' => \__(
+							'In the case of a refund, reversal, or canceled reversal, this variable contains the `txn_id` of the original transaction.',
+							'pronamic_ideal' 
+						),
 						'type'        => 'string',
 
 					),
-					'mc_currency'       => array(
-						'description' => \__( 'For payment IPN notifications, this is the currency of the payment.', 'pronamic_ideal' ),
+					'mc_currency'    => array(
+						'description' => \__(
+							'For payment IPN notifications, this is the currency of the payment.',
+							'pronamic_ideal' 
+						),
 						'type'        => 'string',
 					),
 					'mc_gross'       => array(
-						'description' => \__( 'Full amount of the customer\'s payment, before transaction fee is subtracted. Equivalent to payment_gross for USD payments. If this amount is negative, it signifies a refund or reversal, and either of those payment statuses can be for the full or partial amount of the original transaction.', 'pronamic_ideal' ),
+						'description' => \__(
+							'Full amount of the customer\'s payment, before transaction fee is subtracted. Equivalent to payment_gross for USD payments. If this amount is negative, it signifies a refund or reversal, and either of those payment statuses can be for the full or partial amount of the original transaction.',
+							'pronamic_ideal' 
+						),
 						'type'        => 'string',
 					),
 				),
@@ -120,6 +140,7 @@ class NotificationsController {
 			return new \WP_Error(
 				'rest_paypal_empty_custom_variable',
 				\sprintf(
+					/* translators: %s: Value of PayPayl `custom` parameter. */
 					\__( 'No payment found by `custom` variable: %s.', 'pronamic_ideal ' ),
 					$custom
 				),
@@ -149,17 +170,20 @@ class NotificationsController {
 		/**
 		 * Send response messages back to PayPal.
 		 */
-		$response = Http::post( $ipn_pb_url, array(
-			'headers' => array(
-				/**
-				 * Please ensure you provide a User-Agent header value that 
-				 * describes your IPN listener, such as,
-				 * `PHP-IPN-VerificationScript`.
-				 */
-				'User-Agent' => 'Pronamic-Pay-IPN-VerificationScript',
-			),
-			'body'    => $pb_body,
-		) );
+		$response = Http::post(
+			$ipn_pb_url,
+			array(
+				'headers' => array(
+					/**
+					 * Please ensure you provide a User-Agent header value that 
+					 * describes your IPN listener, such as,
+					 * `PHP-IPN-VerificationScript`.
+					 */
+					'User-Agent' => 'Pronamic-Pay-IPN-VerificationScript',
+				),
+				'body'    => $pb_body,
+			) 
+		);
 
 		$result = $response->body();
 
@@ -188,7 +212,6 @@ class NotificationsController {
 		 */
 		switch ( $request->get_param( 'payment_status' ) ) {
 			case Statuses::CANCELED_REVERSAL:
-
 				break;
 			case Statuses::COMPLETED:
 				$payment->set_transaction_id( $request->get_param( 'txn_id' ) );
@@ -196,10 +219,8 @@ class NotificationsController {
 
 				break;
 			case Statuses::CREATED:
-
 				break;
 			case Statuses::DENIED:
-
 				break;
 			case Statuses::EXPIRED:
 				$payment->set_status( PaymentStatus::EXPIRED );
@@ -230,10 +251,8 @@ class NotificationsController {
 
 				break;
 			case Statuses::PROCESSED:
-
 				break;
 			case Statuses::VOIDED:
-
 				break;
 		}
 

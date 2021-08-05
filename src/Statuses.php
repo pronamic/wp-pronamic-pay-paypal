@@ -97,13 +97,11 @@ class Statuses {
 	 */
 	const VOIDED = 'Voided';
 
-
 	/**
 	 * Transform a PayPal state to a more global status.
 	 *
 	 * @param string $status PayPal status.
-	 *
-	 * @return null|string
+	 * @return string|null
 	 */
 	public static function transform( $status ) {
 		switch ( $status ) {
