@@ -47,10 +47,10 @@
 		"phpmd/phpmd": "^2.8",
 		"phpunit/phpunit": "^5.7",
 		"pronamic/wp-coding-standards": "^1.0",
-		"roots/wordpress": "^5.6",
+		"roots/wordpress": "^5.8",
 		"sirbrillig/phpcs-import-detection": "^1.2",
 		"slevomat/coding-standard": "^6.4",
-		"wp-phpunit/wp-phpunit": "^5.6"
+		"wp-phpunit/wp-phpunit": "^5.8"
 	},
 	"scripts": {
 		"coveralls": "vendor/bin/php-coveralls -v",
