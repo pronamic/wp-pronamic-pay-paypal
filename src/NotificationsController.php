@@ -150,7 +150,7 @@ class NotificationsController {
 			);
 		}
 
-		$config = $this->integration->get_config( $payment->config_id );
+		$config = $this->integration->get_config( (int) $payment->config_id );
 
 		/**
 		 * Instant Payment Notification Post Back URL.
