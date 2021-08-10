@@ -135,9 +135,7 @@ class Gateway extends Core_Gateway {
 		 */
 		$currency_code = $payment->get_total_amount()->get_currency()->get_alphabetic_code();
 
-		if ( null !== $currency_code ) { 
-			$variables->set_value( 'currency_code', $currency_code );
-		}
+		$variables->set_value( 'currency_code', $currency_code );
 
 		/**
 		 * Items.
