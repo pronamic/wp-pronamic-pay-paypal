@@ -238,12 +238,19 @@ class NotificationsController {
 				$mc_gross    = $request->get_param( 'mc_gross' );
 				$mc_currency = $request->get_param( 'mc_currency' );
 
-				$gross = new Money( $mc_gross, $mc_currency );
+				if ( null !== $mc_gross && null !== $mc_currency ) {
+					$gross = new Money( $mc_gross, $mc_currency );
 
-				$refunded_amount = $gross->absolute();
+					$refunded_amount = $gross->absolute();
 
-				$payment->set_transaction_id( $request->get_param( 'parent_txn_id' ) );
-				$payment->set_refunded_amount( $refunded_amount );
+					$payment->set_refunded_amount( $refunded_amount );
+				}
+
+				$transaction_id = $request->get_param( 'parent_txn_id' );
+
+				if ( null !== $transaction_id ) {
+					$payment->set_transaction_id( $transaction_id );
+				}
 
 				break;
 			case Statuses::REVERSED:
