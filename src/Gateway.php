@@ -262,8 +262,8 @@ class Gateway extends Core_Gateway {
 			$x = 1;
 
 			$variables[ 'item_name_' . $x ] = 'Payment ' . $payment->get_id();
-			// The price or amount of the product, service, or contribution, not including shipping, handling, or tax
-			$variables[ 'amount_' . $x ]    = $this->format_amount( $payment->get_total_amount() );
+			// The price or amount of the product, service, or contribution, not including shipping, handling, or tax.
+			$variables[ 'amount_' . $x ] = $this->format_amount( $payment->get_total_amount() );
 
 			return $variables;
 		}
@@ -285,12 +285,14 @@ class Gateway extends Core_Gateway {
 
 			$variables[ 'item_name_' . $x ] = $name;
 
-			// The price or amount of the product, service, or contribution, not including shipping, handling, or tax
+			// The price or amount of the product, service, or contribution, not including shipping, handling, or tax.
 			$total_amount = $line->get_total_amount();
 
-			$amount = ( $total_amount instanceof TaxedMoney ) ? $total_amount->get_excluding_tax() : $total_amount;
+			$amount = $total_amount instanceof TaxedMoney
+				? $total_amount->get_excluding_tax()
+				: $total_amount;
 
-			$variables[ 'amount_' . $x ]    = $this->format_amount( $amount );
+			$variables[ 'amount_' . $x ] = $this->format_amount( $amount );
 
 			$tax_amount = $line->get_tax_amount();
 
