@@ -1,10 +1,18 @@
 <?php
 /**
+ * Pronamic Pay PayPal Add-On
+ *
+ * @package           Pronamic\WordPress\Pay\Gateways\PayPal
+ * @author            Pronamic <info@pronamic.eu>
+ * @copyright         2021 Pronamic
+ * @license           GPL-2.0-or-later
+ *
+ * @wordpress-plugin
  * Plugin Name: Pronamic Pay PayPal Add-On
  * Plugin URI: https://www.pronamic.eu/plugins/pronamic-pay-paypal/
  * Description: Extend the Pronamic Pay plugin with the PayPal gateway to receive payments with PayPal through a variety of WordPress plugins.
  *
- * Version: 1.0.0
+ * Version: 1.0.1
  * Requires at least: 4.7
  *
  * Author: Pronamic
@@ -18,11 +26,8 @@
  * Depends: wp-pay/core
  *
  * GitHub URI: https://github.com/wp-pay-gateways/paypal
- *
- * @author    Pronamic <info@pronamic.eu>
- * @copyright 2005-2021 Pronamic
- * @license   GPL-3.0-or-later
- * @package   Pronamic\WordPress\Pay\Gateways\PayPal
+ * 
+ * Update URI: https://www.pronamic.eu/plugins/pronamic-pay-paypal/
  */
 
 add_filter(

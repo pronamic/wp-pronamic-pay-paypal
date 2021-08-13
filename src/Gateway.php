@@ -11,6 +11,7 @@
 namespace Pronamic\WordPress\Pay\Gateways\PayPal;
 
 use Pronamic\WordPress\Money\Money;
+use Pronamic\WordPress\Money\TaxedMoney;
 use Pronamic\WordPress\Pay\Core\Gateway as Core_Gateway;
 use Pronamic\WordPress\Pay\Core\PaymentMethods;
 use Pronamic\WordPress\Pay\Payments\Payment;
@@ -248,6 +249,7 @@ class Gateway extends Core_Gateway {
 	/**
 	 * Get the PayPal shopping cart variables from a payment.
 	 * 
+	 * @link https://developer.paypal.com/docs/paypal-payments-standard/integration-guide/Appx-websitestandard-htmlvariables/
 	 * @param Payment $payment Payment.
 	 * @return array<string, string>
 	 */
@@ -260,7 +262,8 @@ class Gateway extends Core_Gateway {
 			$x = 1;
 
 			$variables[ 'item_name_' . $x ] = 'Payment ' . $payment->get_id();
-			$variables[ 'amount_' . $x ]    = $this->format_amount( $payment->get_total_amount() );
+			// The price or amount of the product, service, or contribution, not including shipping, handling, or tax.
+			$variables[ 'amount_' . $x ] = $this->format_amount( $payment->get_total_amount() );
 
 			return $variables;
 		}
@@ -281,7 +284,15 @@ class Gateway extends Core_Gateway {
 			}
 
 			$variables[ 'item_name_' . $x ] = $name;
-			$variables[ 'amount_' . $x ]    = $this->format_amount( $line->get_total_amount() );
+
+			// The price or amount of the product, service, or contribution, not including shipping, handling, or tax.
+			$total_amount = $line->get_total_amount();
+
+			$amount = $total_amount instanceof TaxedMoney
+				? $total_amount->get_excluding_tax()
+				: $total_amount;
+
+			$variables[ 'amount_' . $x ] = $this->format_amount( $amount );
 
 			$tax_amount = $line->get_tax_amount();
 
