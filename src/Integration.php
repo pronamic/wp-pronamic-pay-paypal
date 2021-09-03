@@ -11,6 +11,7 @@
 namespace Pronamic\WordPress\Pay\Gateways\PayPal;
 
 use Pronamic\WordPress\Pay\AbstractGatewayIntegration;
+use Pronamic\WordPress\Pay\Payments\Payment;
 
 /**
  * Integration
@@ -64,6 +65,13 @@ class Integration extends AbstractGatewayIntegration {
 			2
 		);
 
+		\add_filter(
+			'pronamic_payment_provider_url_paypal',
+			array( $this, 'payment_provider_url' ),
+			10,
+			2
+		);
+
 		// Notifications controller.
 		$notifications_controller = new NotificationsController( $this );
 
@@ -81,6 +89,26 @@ class Integration extends AbstractGatewayIntegration {
 		$config = $this->get_config( $post_id );
 
 		return $config->get_email();
+	}
+
+	/**
+	 * Payment provider URL.
+	 *
+	 * @param string|null $url     Payment provider URL.
+	 * @param Payment     $payment Payment.
+	 * @return string|null
+	 */
+	public function payment_provider_url( $url, Payment $payment ) {
+		$transaction_id = $payment->get_transaction_id();
+
+		if ( null === $transaction_id ) {
+			return $url;
+		}
+
+		return sprintf(
+			'https://www.paypal.com/activity/payment/%s',
+			$transaction_id
+		);
 	}
 
 	/**
