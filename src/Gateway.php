@@ -160,6 +160,24 @@ class Gateway extends Core_Gateway {
 		$variables->set_value( 'rm', '2' );
 
 		/**
+		 * Cancel return.
+		 *
+		 * A URL to which PayPal redirects the buyers' browsers if they cancel checkout
+		 * before completing their payments. For example, specify a URL on your website
+		 * that displays the Payment Canceled page.
+		 */
+		$variables->set_value(
+			'cancel_return',
+			\urlencode(
+				\add_query_arg(
+					'hash',
+					\wp_hash( (string) $payment->get_id() ),
+					\rest_url( Integration::REST_ROUTE_NAMESPACE . '/cancel-return/' . $payment->get_id() )
+				)
+			) 
+		);
+
+		/**
 		 * Notify URL.
 		 */
 		$notify_url = \rest_url( Integration::REST_ROUTE_NAMESPACE . '/ipn-listener' );

@@ -65,12 +65,7 @@ class Integration extends AbstractGatewayIntegration {
 			2
 		);
 
-		\add_filter(
-			'pronamic_payment_provider_url_paypal',
-			array( $this, 'payment_provider_url' ),
-			10,
-			2
-		);
+		\add_filter( 'pronamic_payment_provider_url_paypal', array( $this, 'payment_provider_url' ), 10, 2 );
 
 		// Notifications controller.
 		$notifications_controller = new NotificationsController( $this );
@@ -105,10 +100,7 @@ class Integration extends AbstractGatewayIntegration {
 			return $url;
 		}
 
-		return sprintf(
-			'https://www.paypal.com/activity/payment/%s',
-			$transaction_id
-		);
+		return \sprintf( 'https://www.paypal.com/activity/payment/%s', $transaction_id );
 	}
 
 	/**

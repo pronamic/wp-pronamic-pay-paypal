@@ -111,6 +111,31 @@ class NotificationsController {
 				'permission_callback' => '__return_true',
 			)
 		);
+
+		\register_rest_route(
+			Integration::REST_ROUTE_NAMESPACE,
+			'/cancel-return/(?P<payment_id>\d+)',
+			array(
+				/**
+				 * IPN and PDT variables.
+				 *
+				 * @link https://developer.paypal.com/docs/api-basics/notifications/ipn/IPNandPDTVariables/
+				 */
+				'args'                => array(
+					'nonce'      => array(
+						'description' => \__( 'Nonce.', 'pronamic_ideal' ),
+						'type'        => 'string',
+					),
+					'payment_id' => array(
+						'description' => \__( 'Payment ID.', 'pronamic_ideal' ),
+						'type'        => 'string',
+					),
+				),
+				'methods'             => 'GET',
+				'callback'            => array( $this, 'rest_api_paypal_cancel_return' ),
+				'permission_callback' => array( $this, 'rest_api_paypal_cancel_return_permission' ),
+			)
+		);
 	}
 
 	/**
@@ -283,5 +308,71 @@ class NotificationsController {
 		);
 
 		return $result;
+	}
+
+	/**
+	 * REST API PayPal cancel return permission handler.
+	 *
+	 * @param WP_REST_Request $request Request.
+	 * @return bool
+	 */
+	public function rest_api_paypal_cancel_return_permission( WP_REST_Request $request ) {
+		$payment_id = $request->get_param( 'payment_id' );
+
+		if ( empty( $payment_id ) ) {
+			return false;
+		}
+
+		$hash = $request->get_param( 'hash' );
+
+		if ( empty( $hash ) ) {
+			return false;
+		}
+
+		return \wp_hash( $payment_id ) === $hash;
+	}
+
+	/**
+	 * REST API PayPal cancel return handler.
+	 *
+	 * @param WP_REST_Request $request Request.
+	 * @return object
+	 */
+	public function rest_api_paypal_cancel_return( WP_REST_Request $request ) {
+		$payment_id = $request->get_param( 'payment_id' );
+
+		$payment = \get_pronamic_payment( $payment_id );
+
+		if ( null === $payment ) {
+			return new \WP_Error(
+				'rest_paypal_no_payment',
+				\sprintf(
+					/* translators: %s: Value of PayPayl `custom` parameter. */
+					\__( 'No payment found by `payment_id` variable: %s.', 'pronamic_ideal ' ),
+					(string) $payment_id
+				),
+				array(
+					'status' => 404,
+				)
+			);
+		}
+
+		/**
+		 * This endpoint will only cancel payments that are open.
+		 */
+		if ( PaymentStatus::OPEN === $payment->get_status() ) {
+			$payment->set_status( PaymentStatus::CANCELLED );
+
+			$payment->add_note( \__( 'Payment has been canceled by buyer at PayPal.', 'pronamic_ideal' ) );
+
+			$payment->save();
+		}
+
+		/**
+		 * 303 See Other.
+		 *
+		 * @link https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/303
+		 */
+		return new \WP_REST_Response( null, 303, array( 'Location' => $payment->get_return_redirect_url() ) );
 	}
 }
