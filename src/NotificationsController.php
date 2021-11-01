@@ -122,8 +122,8 @@ class NotificationsController {
 				 * @link https://developer.paypal.com/docs/api-basics/notifications/ipn/IPNandPDTVariables/
 				 */
 				'args'                => array(
-					'nonce'      => array(
-						'description' => \__( 'Nonce.', 'pronamic_ideal' ),
+					'hash'       => array(
+						'description' => \__( 'Hash.', 'pronamic_ideal' ),
 						'type'        => 'string',
 					),
 					'payment_id' => array(
