@@ -2,10 +2,10 @@
 /**
  * Gateway
  *
- * @author Pronamic <info@pronamic.eu>
- * @copyright 2005-2019 Pronamic
- * @license GPL-3.0-or-later
- * @package Pronamic\WordPress\Pay\Gateways\PayPal
+ * @author    Pronamic <info@pronamic.eu>
+ * @copyright 2005-2022 Pronamic
+ * @license   GPL-3.0-or-later
+ * @package   Pronamic\WordPress\Pay\Gateways\PayPal
  */
 
 namespace Pronamic\WordPress\Pay\Gateways\PayPal;
@@ -19,9 +19,9 @@ use Pronamic\WordPress\Pay\Payments\Payment;
 /**
  * Gateway
  *
- * @author Remco Tolsma
+ * @author  Remco Tolsma
  * @version 1.0.0
- * @since 1.0.0
+ * @since   1.0.0
  */
 class Gateway extends Core_Gateway {
 	/**
@@ -158,6 +158,24 @@ class Gateway extends Core_Gateway {
 		 * @link https://developer.paypal.com/docs/paypal-payments-standard/integration-guide/Appx-websitestandard-htmlvariables/#paypal-checkout-page-variables
 		 */
 		$variables->set_value( 'rm', '2' );
+
+		/**
+		 * Cancel return.
+		 *
+		 * A URL to which PayPal redirects the buyers' browsers if they cancel checkout
+		 * before completing their payments. For example, specify a URL on your website
+		 * that displays the Payment Canceled page.
+		 */
+		$variables->set_value(
+			'cancel_return',
+			\urlencode(
+				\add_query_arg(
+					'hash',
+					\wp_hash( (string) $payment->get_id() ),
+					\rest_url( Integration::REST_ROUTE_NAMESPACE . '/cancel-return/' . $payment->get_id() )
+				)
+			) 
+		);
 
 		/**
 		 * Notify URL.
