@@ -29,6 +29,20 @@ class Integration extends AbstractGatewayIntegration {
 	const REST_ROUTE_NAMESPACE = 'pronamic-pay/paypal/v1';
 
 	/**
+	 * The `webscr` URL.
+	 *
+	 * @var string
+	 */
+	private $webscr_url;
+
+	/**
+	 * The IPN post back URL.
+	 *
+	 * @var string
+	 */
+	private $ipn_pb_url;
+
+	/**
 	 * Construct PayPal integration.
 	 *
 	 * @param array<string, array<string>> $args Arguments.
@@ -39,6 +53,9 @@ class Integration extends AbstractGatewayIntegration {
 			array(
 				'id'            => 'paypal',
 				'name'          => 'PayPal',
+				'mode'          => 'live',
+				'webscr_url'    => 'https://www.paypal.com/cgi-bin/webscr',
+				'ipn_pb_url'    => 'https://ipnpb.paypal.com/cgi-bin/webscr',
 				'provider'      => 'paypal',
 				'url'           => \__( 'https://www.paypal.com/', 'pronamic_ideal' ),
 				'product_url'   => \__( 'https://www.paypal.com/', 'pronamic_ideal' ),
@@ -52,6 +69,9 @@ class Integration extends AbstractGatewayIntegration {
 		);
 
 		parent::__construct( $args );
+
+		$this->webscr_url = $args['webscr_url'];
+		$this->ipn_pb_url = $args['ipn_pb_url'];
 	}
 
 	/**
@@ -133,10 +153,9 @@ class Integration extends AbstractGatewayIntegration {
 	 * @return Config
 	 */
 	public function get_config( $post_id ) {
-		$mode  = $this->get_meta( $post_id, 'mode' );
 		$email = $this->get_meta( $post_id, 'paypal_email' );
 
-		return new Config( $mode, $email );
+		return new Config( $this->webscr_url, $this->ipn_pb_url, $email );
 	}
 
 	/**
@@ -148,6 +167,10 @@ class Integration extends AbstractGatewayIntegration {
 	public function get_gateway( $post_id ) {
 		$config = $this->get_config( $post_id );
 
-		return new Gateway( $config );
+		$gateway = new Gateway( $config );
+
+		$gateway->set_mode( $this->get_mode() );
+
+		return $gateway;
 	}
 }

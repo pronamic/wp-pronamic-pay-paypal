@@ -21,6 +21,20 @@ use Pronamic\WordPress\Pay\Core\GatewayConfig;
  */
 class Config extends GatewayConfig implements \JsonSerializable {
 	/**
+	 * The `webscr` URL.
+	 *
+	 * @var string
+	 */
+	private $webscr_url;
+
+	/**
+	 * The IPN post back URL.
+	 *
+	 * @var string
+	 */
+	private $ipn_pb_url;
+
+	/**
 	 * Email.
 	 *
 	 * @var string
@@ -30,12 +44,34 @@ class Config extends GatewayConfig implements \JsonSerializable {
 	/**
 	 * Construct config object.
 	 *
-	 * @param string $mode  Mode.
+	 * @param string $webscr_url The `webscr_url` URL.
+	 * @param string $ipn_pb_url The IPN post back URL.
 	 * @param string $email Email.
 	 */
-	public function __construct( $mode, $email ) {
-		$this->mode  = $mode;
-		$this->email = $email;
+	public function __construct( $webscr_url, $ipn_pb_url, $email ) {
+		$this->webscr_url = $webscr_url;
+		$this->ipn_pb_url = $ipn_pb_url;
+		$this->email      = $email;
+	}
+
+	/**
+	 * Get the `webscr` URL.
+	 * 
+	 * @link https://developer.paypal.com/docs/paypal-payments-standard/integration-guide/formbasics/
+	 * @return string
+	 */
+	public function get_webscr_url() {
+		return $this->webscr_url;
+	}
+
+	/**
+	 * Get the IPN post back URL.
+	 * 
+	 * @link https://developer.paypal.com/docs/api-basics/notifications/ipn/IPNImplementation/#specs
+	 * @return string
+	 */
+	public function get_ipn_pb_url() {
+		return $this->ipn_pb_url;
 	}
 
 	/**
@@ -48,41 +84,12 @@ class Config extends GatewayConfig implements \JsonSerializable {
 	}
 
 	/**
-	 * Get the `webscr` URL.
-	 * 
-	 * @link https://developer.paypal.com/docs/paypal-payments-standard/integration-guide/formbasics/
-	 * @return string
-	 */
-	public function get_webscr_url() {
-		if ( 'test' === $this->mode ) {
-			return 'https://www.sandbox.paypal.com/cgi-bin/webscr';
-		}
-
-		return 'https://www.paypal.com/cgi-bin/webscr';
-	}
-
-	/**
-	 * Get the IPN post back URL.
-	 * 
-	 * @link https://developer.paypal.com/docs/api-basics/notifications/ipn/IPNImplementation/#specs
-	 * @return string
-	 */
-	public function get_ipn_pb_url() {
-		if ( 'test' === $this->mode ) {
-			return 'https://ipnpb.sandbox.paypal.com/cgi-bin/webscr';
-		}
-
-		return 'https://ipnpb.paypal.com/cgi-bin/webscr';
-	}
-
-	/**
 	 * JSON serialize.
 	 *
 	 * @return object
 	 */
 	public function jsonSerialize() {
 		return (object) array(
-			'mode'  => $this->mode,
 			'email' => $this->email,
 		);
 	}

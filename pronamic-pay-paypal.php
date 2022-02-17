@@ -33,7 +33,25 @@
 add_filter(
 	'pronamic_pay_gateways',
 	function( $gateways ) {
-		$gateways[] = new \Pronamic\WordPress\Pay\Gateways\PayPal\Integration();
+		$gateways[] = new \Pronamic\WordPress\Pay\Gateways\PayPal\Integration(
+			array(
+				'id'         => 'paypal',
+				'name'       => 'PayPal',
+				'mode'       => 'live',
+				'webscr_url' => 'https://www.paypal.com/cgi-bin/webscr',
+				'ipn_pb_url' => 'https://ipnpb.paypal.com/cgi-bin/webscr',
+			)
+		);
+
+		$gateways[] = new \Pronamic\WordPress\Pay\Gateways\PayPal\Integration(
+			array(
+				'id'         => 'paypal-sandbox',
+				'name'       => 'PayPal - Sandbox',
+				'mode'       => 'test',
+				'webscr_url' => 'https://www.sandbox.paypal.com/cgi-bin/webscr',
+				'ipn_pb_url' => 'https://ipnpb.sandbox.paypal.com/cgi-bin/webscr',
+			)
+		);
 
 		return $gateways;
 	}
