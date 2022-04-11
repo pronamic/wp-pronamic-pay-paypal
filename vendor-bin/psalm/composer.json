@@ -1,5 +1,10 @@
 {
     "require-dev": {
         "vimeo/psalm": "^4.4"
+    },
+    "config": {
+        "allow-plugins": {
+            "composer/package-versions-deprecated": true
+        }
     }
 }
