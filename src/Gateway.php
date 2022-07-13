@@ -60,7 +60,10 @@ class Gateway extends Core_Gateway {
 		$this->client = new Client( $config );
 
 		// Methods.
-		$this->register_payment_method( new PaymentMethod( PaymentMethods::PAYPAL ) );
+		$payment_method_paypal = new PaymentMethod( PaymentMethods::PAYPAL );
+		$payment_method_paypal->set_status( 'active' );
+
+		$this->register_payment_method( $payment_method_paypal );
 	}
 
 	/**
