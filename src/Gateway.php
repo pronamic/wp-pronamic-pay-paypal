@@ -13,6 +13,7 @@ namespace Pronamic\WordPress\Pay\Gateways\PayPal;
 use Pronamic\WordPress\Money\Money;
 use Pronamic\WordPress\Money\TaxedMoney;
 use Pronamic\WordPress\Pay\Core\Gateway as Core_Gateway;
+use Pronamic\WordPress\Pay\Core\PaymentMethod;
 use Pronamic\WordPress\Pay\Core\PaymentMethods;
 use Pronamic\WordPress\Pay\Payments\Payment;
 
@@ -57,28 +58,9 @@ class Gateway extends Core_Gateway {
 
 		// Client.
 		$this->client = new Client( $config );
-	}
 
-	/**
-	 * Get supported payment methods
-	 *
-	 * @see Core_Gateway::get_supported_payment_methods()
-	 * @return array<string>
-	 */
-	public function get_supported_payment_methods() {
-		return array(
-			PaymentMethods::PAYPAL,
-		);
-	}
-
-	/**
-	 * Is payment method required to start transaction?
-	 *
-	 * @see Core_Gateway::payment_method_is_required()
-	 * @return true
-	 */
-	public function payment_method_is_required() {
-		return true;
+		// Methods.
+		$this->register_payment_method( new PaymentMethod( PaymentMethods::PAYPAL ) );
 	}
 
 	/**
@@ -90,6 +72,30 @@ class Gateway extends Core_Gateway {
 	 * @see Plugin::start()
 	 */
 	public function start( Payment $payment ) {
+		/**
+		 * If the payment method of the payment is unknown (`null`), we will turn it into
+		 * an PayPal payment.
+		 */
+		$payment_method = $payment->get_payment_method();
+
+		if ( null === $payment_method ) {
+			$payment->set_payment_method( PaymentMethods::PAYPAL );
+		}
+
+		/**
+		 * This gateway can only process payments for the payment method PayPal.
+		 */
+		$payment_method = $payment->get_payment_method();
+
+		if ( PaymentMethods::PAYPAL !== $payment_method ) {
+			throw new \Exception(
+				\sprintf(
+					'The PayPal cannot process `%s` payments, only PayPal payments.',
+					$payment_method
+				)
+			);
+		}
+
 		/**
 		 * HTML Variables for PayPal Payments Standard
 		 *
