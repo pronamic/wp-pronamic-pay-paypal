@@ -30,7 +30,7 @@ class Gateway extends Core_Gateway {
 	 * 
 	 * @var Config
 	 */
-	protected $paypal_config;
+	protected $config;
 
 	/**
 	 * Client.
@@ -45,9 +45,9 @@ class Gateway extends Core_Gateway {
 	 * @param Config $config Config.
 	 */
 	public function __construct( Config $config ) {
-		parent::__construct( $config );
+		parent::__construct();
 
-		$this->paypal_config = $config;
+		$this->config = $config;
 
 		$this->set_method( self::METHOD_HTTP_REDIRECT );
 
@@ -105,11 +105,11 @@ class Gateway extends Core_Gateway {
 		 * @link https://developer.paypal.com/docs/paypal-payments-standard/integration-guide/Appx-websitestandard-htmlvariables/
 		 * @link https://github.com/easydigitaldownloads/easy-digital-downloads/blob/2.9.26/includes/gateways/paypal-standard.php
 		 */
-		$url = $this->paypal_config->get_webscr_url();
+		$url = $this->config->get_webscr_url();
 
 		$variables = new Variables();
 
-		$variables->set_business( $this->paypal_config->get_email() );
+		$variables->set_business( $this->config->get_email() );
 		$variables->set_cmd( '_cart' );
 		$variables->set_upload( true );
 
