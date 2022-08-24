@@ -278,10 +278,6 @@ class NotificationsController {
 				}
 
 				break;
-			case Statuses::REVERSED:
-				$payment->set_status( PaymentStatus::RESERVED );
-
-				break;
 			case Statuses::PROCESSED:
 				break;
 			case Statuses::VOIDED:
