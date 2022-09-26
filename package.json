@@ -1,6 +1,6 @@
 {
   "name": "paypal",
-  "version": "2.1.0",
+  "version": "2.2.0",
   "description": "PayPal driver for the WordPress payment processing library.",
   "repository": {
     "type": "git",
