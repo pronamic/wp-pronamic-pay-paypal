@@ -47,10 +47,10 @@ class Integration extends AbstractGatewayIntegration {
 	 *
 	 * @param array<string, array<string>> $args Arguments.
 	 */
-	public function __construct( $args = array() ) {
+	public function __construct( $args = [] ) {
 		$args = \wp_parse_args(
 			$args,
-			array(
+			[
 				'id'            => 'paypal',
 				'name'          => 'PayPal',
 				'mode'          => 'live',
@@ -64,8 +64,8 @@ class Integration extends AbstractGatewayIntegration {
 					'https://www.pronamic.eu/manuals/using-paypal-pronamic-pay/',
 					'pronamic_ideal'
 				),
-				'supports'      => array(),
-			)
+				'supports'      => [],
+			]
 		);
 
 		parent::__construct( $args );
@@ -80,12 +80,12 @@ class Integration extends AbstractGatewayIntegration {
 	public function setup() {
 		\add_filter(
 			'pronamic_gateway_configuration_display_value_' . $this->get_id(),
-			array( $this, 'gateway_configuration_display_value' ),
+			[ $this, 'gateway_configuration_display_value' ],
 			10,
 			2
 		);
 
-		\add_filter( 'pronamic_payment_provider_url_paypal', array( $this, 'payment_provider_url' ), 10, 2 );
+		\add_filter( 'pronamic_payment_provider_url_paypal', [ $this, 'payment_provider_url' ], 10, 2 );
 
 		// Notifications controller.
 		$notifications_controller = new NotificationsController( $this );
@@ -129,18 +129,18 @@ class Integration extends AbstractGatewayIntegration {
 	 * @return array<int, array<string, callable|int|string|bool|array<int|string,int|string>>>
 	 */
 	public function get_settings_fields() {
-		$fields = array();
+		$fields = [];
 
 		// Business Id.
-		$fields[] = array(
+		$fields[] = [
 			'section'  => 'general',
 			'filter'   => \FILTER_SANITIZE_STRING,
 			'meta_key' => '_pronamic_gateway_paypal_email',
 			'title'    => \_x( 'Email', 'paypal', 'pronamic_ideal' ),
 			'type'     => 'text',
-			'classes'  => array( 'regular-text', 'code' ),
+			'classes'  => [ 'regular-text', 'code' ],
 			'tooltip'  => \__( 'Enter your PayPal account\'s email.', 'pronamic_ideal' ),
-		);
+		];
 
 		// Return fields.
 		return $fields;

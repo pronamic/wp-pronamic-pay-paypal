@@ -89,8 +89,8 @@ class Config extends GatewayConfig implements \JsonSerializable {
 	 * @return object
 	 */
 	public function jsonSerialize() {
-		return (object) array(
+		return (object) [
 			'email' => $this->email,
-		);
+		];
 	}
 }

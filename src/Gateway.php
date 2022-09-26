@@ -52,9 +52,9 @@ class Gateway extends Core_Gateway {
 		$this->set_method( self::METHOD_HTTP_REDIRECT );
 
 		// Supported features.
-		$this->supports = array(
+		$this->supports = [
 			'payment_status_request',
-		);
+		];
 
 		// Client.
 		$this->client = new Client( $config );
@@ -72,6 +72,7 @@ class Gateway extends Core_Gateway {
 	 * @param Payment $payment Payment.
 	 * @return void
 	 * @throws \InvalidArgumentException Throws exception if payment ID or currency is empty.
+	 * @throws \Exception Throws exception Throws exception on unsupported payment method.
 	 * @see Plugin::start()
 	 */
 	public function start( Payment $payment ) {
@@ -281,7 +282,7 @@ class Gateway extends Core_Gateway {
 	 * @return array<string, string>
 	 */
 	private function get_shopping_cart_variables( Payment $payment ) {
-		$variables = array();
+		$variables = [];
 
 		$lines = $payment->get_lines();
 

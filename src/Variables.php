@@ -29,7 +29,7 @@ class Variables {
 	 * Construct variables object.
 	 */
 	public function __construct() {
-		$this->variables = array();
+		$this->variables = [];
 	}
 
 	/**
