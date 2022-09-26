@@ -47,7 +47,7 @@ class NotificationsController {
 	 * @return void
 	 */
 	public function setup() {
-		\add_action( 'rest_api_init', array( $this, 'rest_api_init' ) );
+		\add_action( 'rest_api_init', [ $this, 'rest_api_init' ] );
 	}
 
 	/**
@@ -61,80 +61,80 @@ class NotificationsController {
 		\register_rest_route(
 			Integration::REST_ROUTE_NAMESPACE,
 			'/ipn-listener',
-			array(
+			[
 				/**
 				 * IPN and PDT variables.
 				 * 
 				 * @link https://developer.paypal.com/docs/api-basics/notifications/ipn/IPNandPDTVariables/
 				 */
-				'args'                => array(
-					'custom'         => array(
+				'args'                => [
+					'custom'         => [
 						'description' => \__( 'Custom.', 'pronamic_ideal' ),
 						'type'        => 'string',
-					),
-					'payment_status' => array(
+					],
+					'payment_status' => [
 						'description' => \__( 'The status of the payment.', 'pronamic_ideal' ),
 						'type'        => 'string',
-					),
-					'txn_id'         => array(
+					],
+					'txn_id'         => [
 						'description' => \__(
 							'The merchant\'s original transaction identification number for the payment from the buyer, against which the case was registered.',
 							'pronamic_ideal' 
 						),
 						'type'        => 'string',
-					),
-					'parent_txn_id'  => array(
+					],
+					'parent_txn_id'  => [
 						'description' => \__(
 							'In the case of a refund, reversal, or canceled reversal, this variable contains the `txn_id` of the original transaction.',
 							'pronamic_ideal' 
 						),
 						'type'        => 'string',
 
-					),
-					'mc_currency'    => array(
+					],
+					'mc_currency'    => [
 						'description' => \__(
 							'For payment IPN notifications, this is the currency of the payment.',
 							'pronamic_ideal' 
 						),
 						'type'        => 'string',
-					),
-					'mc_gross'       => array(
+					],
+					'mc_gross'       => [
 						'description' => \__(
 							'Full amount of the customer\'s payment, before transaction fee is subtracted. Equivalent to payment_gross for USD payments. If this amount is negative, it signifies a refund or reversal, and either of those payment statuses can be for the full or partial amount of the original transaction.',
 							'pronamic_ideal' 
 						),
 						'type'        => 'string',
-					),
-				),
+					],
+				],
 				'methods'             => 'POST',
-				'callback'            => array( $this, 'rest_api_paypal_ipn' ),
+				'callback'            => [ $this, 'rest_api_paypal_ipn' ],
 				'permission_callback' => '__return_true',
-			)
+			]
 		);
 
 		\register_rest_route(
 			Integration::REST_ROUTE_NAMESPACE,
 			'/cancel-return/(?P<payment_id>\d+)',
-			array(
+			[
 				/**
 				 * IPN and PDT variables.
 				 *
 				 * @link https://developer.paypal.com/docs/api-basics/notifications/ipn/IPNandPDTVariables/
 				 */
-				'args'                => array(
-					'hash'       => array(
+				'args'                => [
+					'hash'       => [
 						'description' => \__( 'Hash.', 'pronamic_ideal' ),
 						'type'        => 'string',
-					),
-					'payment_id' => array(
+					],
+					'payment_id' => [
 						'description' => \__( 'Payment ID.', 'pronamic_ideal' ),
 						'type'        => 'string',
-					),
-				),
+					],
+				],
 				'methods'             => 'GET',
-				'callback'            => array( $this, 'rest_api_paypal_cancel_return' ),
-				'permission_callback' => array( $this, 'rest_api_paypal_cancel_return_permission' ),
-			)
+				'callback'            => [ $this, 'rest_api_paypal_cancel_return' ],
+				'permission_callback' => [ $this, 'rest_api_paypal_cancel_return_permission' ],
+			]
 		);
 	}
 
@@ -153,9 +153,9 @@ class NotificationsController {
 			return new \WP_Error(
 				'rest_paypal_empty_custom_variable',
 				\__( 'Empty `custom` PayPal variable.', 'pronamic_ideal ' ),
-				array(
+				[
 					'status' => 200,
-				)
+				]
 			);
 		}
 
@@ -169,9 +169,9 @@ class NotificationsController {
 					\__( 'No payment found by `custom` variable: %s.', 'pronamic_ideal ' ),
 					$custom
 				),
-				array(
+				[
 					'status' => 200,
-				)
+				]
 			);
 		}
 
@@ -197,17 +197,17 @@ class NotificationsController {
 		 */
 		$response = Http::post(
 			$ipn_pb_url,
-			array(
-				'headers' => array(
+			[
+				'headers' => [
 					/**
 					 * Please ensure you provide a User-Agent header value that 
 					 * describes your IPN listener, such as,
 					 * `PHP-IPN-VerificationScript`.
 					 */
 					'User-Agent' => 'Pronamic-Pay-IPN-VerificationScript',
-				),
+				],
 				'body'    => $pb_body,
-			) 
+			] 
 		);
 
 		$result = $response->body();
@@ -216,9 +216,9 @@ class NotificationsController {
 			return new \WP_Error(
 				'rest_paypal_ipn_invalid',
 				\__( 'IPN request invalid.', 'pronamic_ideal ' ),
-				array(
+				[
 					'status' => 200,
-				)
+				]
 			);
 		}
 
@@ -226,9 +226,9 @@ class NotificationsController {
 			return new \WP_Error(
 				'rest_paypal_ipn_not_verified',
 				\__( 'IPN request not verified.', 'pronamic_ideal ' ),
-				array(
+				[
 					'status' => 200,
-				)
+				]
 			);
 		}
 
@@ -278,10 +278,6 @@ class NotificationsController {
 				}
 
 				break;
-			case Statuses::REVERSED:
-				$payment->set_status( PaymentStatus::RESERVED );
-
-				break;
 			case Statuses::PROCESSED:
 				break;
 			case Statuses::VOIDED:
@@ -301,11 +297,11 @@ class NotificationsController {
 		/**
 		 * Result.
 		 */
-		$result = (object) array(
+		$result = (object) [
 			'body'   => $request->get_body(),
 			'custom' => $request->get_param( 'custom' ),
 			'result' => $result,
-		);
+		];
 
 		return $result;
 	}
@@ -351,9 +347,9 @@ class NotificationsController {
 					\__( 'No payment found by `payment_id` variable: %s.', 'pronamic_ideal ' ),
 					(string) $payment_id
 				),
-				array(
+				[
 					'status' => 404,
-				)
+				]
 			);
 		}
 
@@ -373,6 +369,6 @@ class NotificationsController {
 		 *
 		 * @link https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/303
 		 */
-		return new \WP_REST_Response( null, 303, array( 'Location' => $payment->get_return_redirect_url() ) );
+		return new \WP_REST_Response( null, 303, [ 'Location' => $payment->get_return_redirect_url() ] );
 	}
 }

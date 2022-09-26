@@ -13,6 +13,7 @@ namespace Pronamic\WordPress\Pay\Gateways\PayPal;
 use Pronamic\WordPress\Money\Money;
 use Pronamic\WordPress\Money\TaxedMoney;
 use Pronamic\WordPress\Pay\Core\Gateway as Core_Gateway;
+use Pronamic\WordPress\Pay\Core\PaymentMethod;
 use Pronamic\WordPress\Pay\Core\PaymentMethods;
 use Pronamic\WordPress\Pay\Payments\Payment;
 
@@ -29,7 +30,7 @@ class Gateway extends Core_Gateway {
 	 * 
 	 * @var Config
 	 */
-	protected $paypal_config;
+	protected $config;
 
 	/**
 	 * Client.
@@ -44,41 +45,25 @@ class Gateway extends Core_Gateway {
 	 * @param Config $config Config.
 	 */
 	public function __construct( Config $config ) {
-		parent::__construct( $config );
+		parent::__construct();
 
-		$this->paypal_config = $config;
+		$this->config = $config;
 
 		$this->set_method( self::METHOD_HTTP_REDIRECT );
 
 		// Supported features.
-		$this->supports = array(
+		$this->supports = [
 			'payment_status_request',
-		);
+		];
 
 		// Client.
 		$this->client = new Client( $config );
-	}
 
-	/**
-	 * Get supported payment methods
-	 *
-	 * @see Core_Gateway::get_supported_payment_methods()
-	 * @return array<string>
-	 */
-	public function get_supported_payment_methods() {
-		return array(
-			PaymentMethods::PAYPAL,
-		);
-	}
+		// Methods.
+		$payment_method_paypal = new PaymentMethod( PaymentMethods::PAYPAL );
+		$payment_method_paypal->set_status( 'active' );
 
-	/**
-	 * Is payment method required to start transaction?
-	 *
-	 * @see Core_Gateway::payment_method_is_required()
-	 * @return true
-	 */
-	public function payment_method_is_required() {
-		return true;
+		$this->register_payment_method( $payment_method_paypal );
 	}
 
 	/**
@@ -87,20 +72,45 @@ class Gateway extends Core_Gateway {
 	 * @param Payment $payment Payment.
 	 * @return void
 	 * @throws \InvalidArgumentException Throws exception if payment ID or currency is empty.
+	 * @throws \Exception Throws exception Throws exception on unsupported payment method.
 	 * @see Plugin::start()
 	 */
 	public function start( Payment $payment ) {
+		/**
+		 * If the payment method of the payment is unknown (`null`), we will turn it into
+		 * an PayPal payment.
+		 */
+		$payment_method = $payment->get_payment_method();
+
+		if ( null === $payment_method ) {
+			$payment->set_payment_method( PaymentMethods::PAYPAL );
+		}
+
+		/**
+		 * This gateway can only process payments for the payment method PayPal.
+		 */
+		$payment_method = $payment->get_payment_method();
+
+		if ( PaymentMethods::PAYPAL !== $payment_method ) {
+			throw new \Exception(
+				\sprintf(
+					'The PayPal cannot process `%s` payments, only PayPal payments.',
+					$payment_method
+				)
+			);
+		}
+
 		/**
 		 * HTML Variables for PayPal Payments Standard
 		 *
 		 * @link https://developer.paypal.com/docs/paypal-payments-standard/integration-guide/Appx-websitestandard-htmlvariables/
 		 * @link https://github.com/easydigitaldownloads/easy-digital-downloads/blob/2.9.26/includes/gateways/paypal-standard.php
 		 */
-		$url = $this->paypal_config->get_webscr_url();
+		$url = $this->config->get_webscr_url();
 
 		$variables = new Variables();
 
-		$variables->set_business( $this->paypal_config->get_email() );
+		$variables->set_business( $this->config->get_email() );
 		$variables->set_cmd( '_cart' );
 		$variables->set_upload( true );
 
@@ -272,7 +282,7 @@ class Gateway extends Core_Gateway {
 	 * @return array<string, string>
 	 */
 	private function get_shopping_cart_variables( Payment $payment ) {
-		$variables = array();
+		$variables = [];
 
 		$lines = $payment->get_lines();
 
