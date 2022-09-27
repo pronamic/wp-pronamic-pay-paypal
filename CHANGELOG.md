@@ -6,6 +6,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased][unreleased]
 
+## [2.2.1] - 2022-09-27
+- Update to `wp-pay/core` version `^4.4`.
+
 ## [2.2.0] - 2022-09-26
 - Updated payment methods registration.
 
@@ -25,7 +28,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [1.0.0] - 2021-08-05
 - First release.
 
-[unreleased]: https://github.com/wp-pay-gateways/paypal/compare/2.2.0...HEAD
+[unreleased]: https://github.com/wp-pay-gateways/paypal/compare/2.2.1...HEAD
+[2.2.1]: https://github.com/pronamic/wp-pronamic-pay-paypal/compare/2.2.0...2.2.1
 [2.2.0]: https://github.com/pronamic/wp-pronamic-pay-paypal/compare/2.1.0...2.2.0
 [2.1.0]: https://github.com/wp-pay-gateways/paypal/compare/2.0.0...2.1.0
 [2.0.0]: https://github.com/wp-pay-gateways/paypal/compare/1.0.2...2.0.0
