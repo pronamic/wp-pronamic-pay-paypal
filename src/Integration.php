@@ -61,7 +61,7 @@ class Integration extends AbstractGatewayIntegration {
 				'product_url'   => \__( 'https://www.paypal.com/', 'pronamic_ideal' ),
 				'dashboard_url' => 'https://www.paypal.com/mep/dashboard',
 				'manual_url'    => \__(
-					'https://www.pronamic.eu/manuals/using-paypal-pronamic-pay/',
+					'https://www.pronamicpay.com/en/manuals/how-to-connect-paypal-to-wordpress-with-pronamic-pay/',
 					'pronamic_ideal'
 				),
 				'supports'      => [],
