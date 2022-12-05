@@ -7,7 +7,12 @@
 	<exclude-pattern>tests/wp-config.php</exclude-pattern>
 
 	<rule ref="PronamicWP">
-		<exclude name="Generic.Arrays.DisallowShortArraySyntax.Found" />
+		<exclude name="WordPress.DB.SlowDBQuery.slow_db_query_meta_key"/>
+
+		<exclude name="WordPress.Files.FileName.InvalidClassFileName"/>
+		<exclude name="WordPress.Files.FileName.NotHyphenatedLowercase"/>
+
+		<exclude name="WordPress.Security.SafeRedirect.wp_redirect_wp_redirect"/>
 	</rule>
 
 	<rule ref="vendor/slevomat/coding-standard/SlevomatCodingStandard/ruleset.xml">
@@ -51,6 +56,7 @@
 		<exclude name="SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingNativeTypeHint" />
 		<exclude name="SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingNativeTypeHint" />
 		<exclude name="SlevomatCodingStandard.TypeHints.ReturnTypeHint.MissingNativeTypeHint" />
+		<exclude name="SlevomatCodingStandard.TypeHints.ReturnTypeHint.UselessAnnotation" />
 		<exclude name="SlevomatCodingStandard.TypeHints.UselessConstantTypeHint.UselessVarAnnotation" />
 
 		<exclude name="SlevomatCodingStandard.Variables.DisallowSuperGlobalVariable.DisallowedSuperGlobalVariable" />
@@ -66,15 +72,6 @@
 	<rule ref="VariableAnalysis.CodeAnalysis.VariableAnalysis.UnusedVariable">
 		<exclude-pattern>src/Gateway.php</exclude-pattern>
 		<exclude-pattern>src/NotificationsController.php</exclude-pattern>
-	</rule>
-
-	<rule ref="WordPress">
-		<exclude name="WordPress.DB.SlowDBQuery.slow_db_query_meta_key"/>
-
-		<exclude name="WordPress.Files.FileName.InvalidClassFileName"/>
-		<exclude name="WordPress.Files.FileName.NotHyphenatedLowercase"/>
-
-		<exclude name="WordPress.Security.SafeRedirect.wp_redirect_wp_redirect"/>
 	</rule>
 
 	<rule ref="WordPress.PHP.DiscouragedPHPFunctions.obfuscation_base64_encode">

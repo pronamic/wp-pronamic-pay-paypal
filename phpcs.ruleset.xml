@@ -1,6 +1,0 @@
-<?xml version="1.0"?>
-<ruleset name="WordPress Pay PayPal rules">
-	<rule ref="WordPress">	
-		<exclude name="Generic.WhiteSpace.ScopeIndent.Incorrect" />
-	</rule>
-</ruleset>

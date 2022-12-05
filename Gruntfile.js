@@ -15,7 +15,7 @@ module.exports = function( grunt ) {
 				dir: [ 'src' ],
 			},
 			options: {
-				standard: 'phpcs.ruleset.xml',
+				standard: 'phpcs.xml.dist',
 				extensions: 'php',
 				ignore: 'node_modules'
 			}
