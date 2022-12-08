@@ -71,8 +71,7 @@ class Gateway extends Core_Gateway {
 	 *
 	 * @param Payment $payment Payment.
 	 * @return void
-	 * @throws \InvalidArgumentException Throws exception if payment ID or currency is empty.
-	 * @throws \Exception Throws exception Throws exception on unsupported payment method.
+	 * @throws \Exception Throws exception on unsupported payment method.
 	 * @see Plugin::start()
 	 */
 	public function start( Payment $payment ) {
