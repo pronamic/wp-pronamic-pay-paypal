@@ -134,7 +134,6 @@ class Integration extends AbstractGatewayIntegration {
 		// Business Id.
 		$fields[] = [
 			'section'  => 'general',
-			'filter'   => \FILTER_SANITIZE_STRING,
 			'meta_key' => '_pronamic_gateway_paypal_email',
 			'title'    => \_x( 'Email', 'paypal', 'pronamic_ideal' ),
 			'type'     => 'text',
