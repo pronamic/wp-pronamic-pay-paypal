@@ -24,6 +24,7 @@
  *
  * License: GPL-3.0-or-later
  *
+ * Requires Plugins: pronamic-ideal
  * Depends: wp-pay/core
  *
  * GitHub URI: https://github.com/wp-pay-gateways/paypal
