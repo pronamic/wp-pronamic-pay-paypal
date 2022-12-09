@@ -327,7 +327,7 @@ class Gateway extends Core_Gateway {
 				$variables[ 'tax_' . $x ] = $this->format_amount( $tax_amount );
 			}
 
-			++$x;
+			$x++;
 		}
 
 		return $variables;
