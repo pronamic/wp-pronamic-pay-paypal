@@ -247,13 +247,19 @@ class Gateway extends Core_Gateway {
 		}
 
 		// Transaction ID.
-		if ( \filter_has_var( \INPUT_POST, 'txn_id' ) ) {
-			$payment->set_transaction_id( \filter_input( \INPUT_POST, 'txn_id', \FILTER_SANITIZE_STRING ) );
+		// phpcs:ignore WordPress.Security.NonceVerification
+		if ( \array_key_exists( 'txn_id', $_POST ) ) {
+			// phpcs:ignore WordPress.Security.NonceVerification
+			$transaction_id = \sanitize_text_field( \wp_unslash( $_POST['txn_id'] ) );
+
+			$payment->set_transaction_id( $transaction_id );
 		}
 
 		// Status.
-		if ( \filter_has_var( \INPUT_POST, 'payment_status' ) ) {
-			$payment_status = \filter_input( \INPUT_POST, 'payment_status', \FILTER_SANITIZE_STRING );
+		// phpcs:ignore WordPress.Security.NonceVerification
+		if ( \array_key_exists( 'payment_status', $_POST ) ) {
+			// phpcs:ignore WordPress.Security.NonceVerification
+			$payment_status = \sanitize_text_field( \wp_unslash( $_POST['payment_status'] ) );
 
 			$status = Statuses::transform( $payment_status );
 
