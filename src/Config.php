@@ -56,7 +56,7 @@ class Config extends GatewayConfig implements \JsonSerializable {
 
 	/**
 	 * Get the `webscr` URL.
-	 * 
+	 *
 	 * @link https://developer.paypal.com/docs/paypal-payments-standard/integration-guide/formbasics/
 	 * @return string
 	 */
@@ -66,7 +66,7 @@ class Config extends GatewayConfig implements \JsonSerializable {
 
 	/**
 	 * Get the IPN post back URL.
-	 * 
+	 *
 	 * @link https://developer.paypal.com/docs/api-basics/notifications/ipn/IPNImplementation/#specs
 	 * @return string
 	 */

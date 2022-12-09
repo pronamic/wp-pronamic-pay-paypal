@@ -27,7 +27,7 @@ use Pronamic\WordPress\Pay\Payments\Payment;
 class Gateway extends Core_Gateway {
 	/**
 	 * Config.
-	 * 
+	 *
 	 * @var Config
 	 */
 	protected $config;
@@ -131,11 +131,11 @@ class Gateway extends Core_Gateway {
 
 		/**
 		 * Shipping.
-		 * 
+		 *
 		 * We set the `no_shipping` variable to `1` so there is no prompt for
 		 * an address. For now we require that each extensions requests the
 		 * shipping details.
-		 * 
+		 *
 		 * @link https://github.com/pronamic/wp-pronamic-pay/issues/158
 		 */
 		$variables->set_value( 'no_shipping', '1' );
@@ -183,7 +183,7 @@ class Gateway extends Core_Gateway {
 					\wp_hash( (string) $payment->get_id() ),
 					\rest_url( Integration::REST_ROUTE_NAMESPACE . '/cancel-return/' . $payment->get_id() )
 				)
-			) 
+			)
 		);
 
 		/**
@@ -206,7 +206,7 @@ class Gateway extends Core_Gateway {
 
 		/**
 		 * Custom.
-		 * 
+		 *
 		 * Pass-through variable for your own tracking purposes, which buyers do not see.
 		 */
 		$variables->set_value( 'custom', (string) $payment->get_id() );
@@ -265,7 +265,7 @@ class Gateway extends Core_Gateway {
 
 	/**
 	 * Format amount.
-	 * 
+	 *
 	 * @param Money $amount Money.
 	 * @return string
 	 */
@@ -275,7 +275,7 @@ class Gateway extends Core_Gateway {
 
 	/**
 	 * Get the PayPal shopping cart variables from a payment.
-	 * 
+	 *
 	 * @link https://developer.paypal.com/docs/paypal-payments-standard/integration-guide/Appx-websitestandard-htmlvariables/
 	 * @param Payment $payment Payment.
 	 * @return array<string, string>
@@ -327,7 +327,7 @@ class Gateway extends Core_Gateway {
 				$variables[ 'tax_' . $x ] = $this->format_amount( $tax_amount );
 			}
 
-			$x++;
+			++$x;
 		}
 
 		return $variables;

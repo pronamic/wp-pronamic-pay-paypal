@@ -27,7 +27,7 @@
  * Depends: wp-pay/core
  *
  * GitHub URI: https://github.com/wp-pay-gateways/paypal
- * 
+ *
  * Update URI: https://www.pronamic.eu/plugins/pronamic-pay-paypal/
  */
 
