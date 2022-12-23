@@ -1,6 +1,6 @@
 {
   "name": "paypal",
-  "version": "2.2.2",
+  "version": "2.3.0",
   "description": "PayPal driver for the WordPress payment processing library.",
   "repository": {
     "type": "git",
@@ -32,22 +32,18 @@
   },
   "homepage": "https://www.wp-pay.org/gateways/paypal/",
   "scripts": {
-    "babel": "babel ./js/src -d ./js/dist --source-maps",
-    "eslint": "eslint . --ext .json --ext .js"
-  },
-  "devDependencies": {
-    "@wordpress/env": "^5.2.0",
-    "@babel/cli": "^7.12.8",
-    "@babel/core": "^7.12.9",
-    "@babel/preset-env": "^7.12.7",
-    "eslint": "^7.14.0",
-    "eslint-plugin-json": "^2.1.2",
-    "npm-run-all": "^4.1.5"
-  },
-  "scripts": {
     "start": "wp-env start && npm run setup && npm run login",
     "setup": "npm-run-all setup-*",
     "setup-mollie": "wp-env run cli wp config set PRONAMIC_PAY_PAYPAL_EMAIL $PRONAMIC_PAY_PAYPAL_EMAIL",
     "login": "wp-env run cli wp user one-time-login admin"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.12.8",
+    "@babel/core": "^7.12.9",
+    "@babel/preset-env": "^7.12.7",
+    "@wordpress/env": "^5.2.0",
+    "eslint": "^7.14.0",
+    "eslint-plugin-json": "^2.1.2",
+    "npm-run-all": "^4.1.5"
   }
 }
