@@ -12,7 +12,7 @@
  * Plugin URI: https://www.pronamic.eu/plugins/pronamic-pay-paypal/
  * Description: Extend the Pronamic Pay plugin with the PayPal gateway to receive payments with PayPal through a variety of WordPress plugins.
  *
- * Version: 2.3.0
+ * Version: 2.3.1
  * Requires at least: 4.7
  * Requires PHP: 8.0
  *
