@@ -2,7 +2,7 @@
 Contributors: pronamic, remcotolsma 
 Tags: pronamic, pay, paypal, add-on
 Requires at least: 4.7
-Tested up to: 5.1
+Tested up to: 6.2
 Requires PHP: 7.4
 Stable tag: 2.3.1
 
