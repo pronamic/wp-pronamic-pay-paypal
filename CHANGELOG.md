@@ -6,6 +6,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased][unreleased]
 
+## [2.3.2] - 2023-03-27
+
+### Commits
+
+- Tested up to 6.2. ([2493ebd](https://github.com/pronamic/wp-pronamic-pay-paypal/commit/2493ebd59d9b467782207471225b518b7f445934))
+- Set Composer type to WordPress plugin. ([2e6c6e4](https://github.com/pronamic/wp-pronamic-pay-paypal/commit/2e6c6e4335e3982e0498fa49caec550e8e54c152))
+- Updated .gitattributes ([7c5882f](https://github.com/pronamic/wp-pronamic-pay-paypal/commit/7c5882fcca4ca3e0299984eedb4848fff1afebaf))
+- Requires PHP: 7.4. ([2515c7f](https://github.com/pronamic/wp-pronamic-pay-paypal/commit/2515c7f26cd183cb6089ca2927311d89035c2322))
+
+Full set of changes: [`2.3.1...2.3.2`][2.3.2]
+
+[2.3.2]: https://github.com/pronamic/wp-pronamic-pay-paypal/compare/v2.3.1...v2.3.2
+
 ## [2.3.1] - 2023-01-31
 ### Composer
 
