@@ -6,6 +6,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased][unreleased]
 
+## [2.3.4] - 2023-06-01
+
+### Commits
+
+- Added `WordPress.WP.I18n` config. ([ab9eefc](https://github.com/pronamic/wp-pronamic-pay-paypal/commit/ab9eefca01785b30dd4ba3d77a0a760168a49e03))
+- Fixed text domain. ([30ecf38](https://github.com/pronamic/wp-pronamic-pay-paypal/commit/30ecf38171594e67d5bb924b58b2a993674adcdf))
+
+Full set of changes: [`2.3.3...2.3.4`][2.3.4]
+
+[2.3.4]: https://github.com/pronamic/wp-pronamic-pay-paypal/compare/v2.3.3...v2.3.4
+
 ## [2.3.3] - 2023-06-01
 
 ### Commits
