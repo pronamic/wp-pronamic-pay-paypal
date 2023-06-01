@@ -58,6 +58,7 @@
 		"roots/wordpress": "^6.0",
 		"sirbrillig/phpcs-import-detection": "^1.2",
 		"slevomat/coding-standard": "^6.4",
+		"wp-cli/wp-cli-bundle": "^2.6",
 		"wp-phpunit/wp-phpunit": "^6.1",
 		"yoast/phpunit-polyfills": "^1.0"
 	},
