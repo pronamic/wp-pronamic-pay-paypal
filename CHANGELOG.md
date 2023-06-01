@@ -6,6 +6,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased][unreleased]
 
+## [2.3.3] - 2023-06-01
+
+### Commits
+
+- Switch from `pronamic/wp-deployer` to `pronamic/pronamic-cli`. ([470a07a](https://github.com/pronamic/wp-pronamic-pay-paypal/commit/470a07ad5c2260be39ffb092a6a5a4e58c82c689))
+- Updated .gitattributes ([12ea72c](https://github.com/pronamic/wp-pronamic-pay-paypal/commit/12ea72c5a64f560afa2b8c9a6353d524a41e91c5))
+
+Full set of changes: [`2.3.2...2.3.3`][2.3.3]
+
+[2.3.3]: https://github.com/pronamic/wp-pronamic-pay-paypal/compare/v2.3.2...v2.3.3
+
 ## [2.3.2] - 2023-03-27
 
 ### Commits
