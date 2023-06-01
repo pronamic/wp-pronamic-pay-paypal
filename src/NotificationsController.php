@@ -152,7 +152,7 @@ class NotificationsController {
 		if ( empty( $custom ) ) {
 			return new \WP_Error(
 				'rest_paypal_empty_custom_variable',
-				\__( 'Empty `custom` PayPal variable.', 'pronamic_ideal ' ),
+				\__( 'Empty `custom` PayPal variable.', 'pronamic_ideal' ),
 				[
 					'status' => 200,
 				]
@@ -166,7 +166,7 @@ class NotificationsController {
 				'rest_paypal_empty_custom_variable',
 				\sprintf(
 					/* translators: %s: Value of PayPayl `custom` parameter. */
-					\__( 'No payment found by `custom` variable: %s.', 'pronamic_ideal ' ),
+					\__( 'No payment found by `custom` variable: %s.', 'pronamic_ideal' ),
 					$custom
 				),
 				[
@@ -215,7 +215,7 @@ class NotificationsController {
 		if ( 'INVALID' === $result ) {
 			return new \WP_Error(
 				'rest_paypal_ipn_invalid',
-				\__( 'IPN request invalid.', 'pronamic_ideal ' ),
+				\__( 'IPN request invalid.', 'pronamic_ideal' ),
 				[
 					'status' => 200,
 				]
@@ -225,7 +225,7 @@ class NotificationsController {
 		if ( 'VERIFIED' !== $result ) {
 			return new \WP_Error(
 				'rest_paypal_ipn_not_verified',
-				\__( 'IPN request not verified.', 'pronamic_ideal ' ),
+				\__( 'IPN request not verified.', 'pronamic_ideal' ),
 				[
 					'status' => 200,
 				]
@@ -344,7 +344,7 @@ class NotificationsController {
 				'rest_paypal_no_payment',
 				\sprintf(
 					/* translators: %s: Value of PayPayl `custom` parameter. */
-					\__( 'No payment found by `payment_id` variable: %s.', 'pronamic_ideal ' ),
+					\__( 'No payment found by `payment_id` variable: %s.', 'pronamic_ideal' ),
 					(string) $payment_id
 				),
 				[
