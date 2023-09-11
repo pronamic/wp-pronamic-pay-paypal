@@ -6,6 +6,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased][unreleased]
 
+## [2.3.5] - 2023-09-11
+
+### Commits
+
+- composer require wp-cli/wp-cli-bundle --dev ([0408bb3](https://github.com/pronamic/wp-pronamic-pay-paypal/commit/0408bb3043abd9d03d7df3442b030fecfba26a6a))
+- Created .pronamic-build-ignore ([e14aab8](https://github.com/pronamic/wp-pronamic-pay-paypal/commit/e14aab8664968c50b07bb5e114aec12bea902da9))
+- Configure WordPress slug. ([5c2ab43](https://github.com/pronamic/wp-pronamic-pay-paypal/commit/5c2ab43812b17d51c884459b89ed651e15ea863d))
+
+Full set of changes: [`2.3.4...2.3.5`][2.3.5]
+
+[2.3.5]: https://github.com/pronamic/wp-pronamic-pay-paypal/compare/v2.3.4...v2.3.5
+
 ## [2.3.4] - 2023-06-01
 
 ### Commits
