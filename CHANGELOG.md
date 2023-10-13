@@ -6,6 +6,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased][unreleased]
 
+## [2.3.6] - 2023-10-13
+
+### Commits
+
+- composer require pronamic/pronamic-cli --dev ([e2623da](https://github.com/pronamic/wp-pronamic-pay-paypal/commit/e2623da6eec13074573cafc6660bad59137fbf41))
+
+Full set of changes: [`2.3.5...2.3.6`][2.3.6]
+
+[2.3.6]: https://github.com/pronamic/wp-pronamic-pay-paypal/compare/v2.3.5...v2.3.6
+
 ## [2.3.5] - 2023-09-11
 
 ### Commits
