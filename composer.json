@@ -38,6 +38,9 @@
 			"dealerdirect/phpcodesniffer-composer-installer": true,
 			"automattic/jetpack-autoloader": true
 		},
+		"platform": {
+			"php": "8.2"
+		},
 		"wp-slug": "pronamic-pay-paypal"
 	},
 	"require": {

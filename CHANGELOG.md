@@ -6,6 +6,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased][unreleased]
 
+## [2.3.7] - 2024-12-17
+
+### Commits
+
+- Allow automattic/jetpack-autoloader Composer plugin. ([a295e97](https://github.com/pronamic/wp-pronamic-pay-paypal/commit/a295e9796063fbbc4e76a5e9ed1161389a036808))
+- Happy 2024. ([0b0980b](https://github.com/pronamic/wp-pronamic-pay-paypal/commit/0b0980b2a16a4dc04d8c7485973d2b447bcc29b6))
+
+Full set of changes: [`2.3.6...2.3.7`][2.3.7]
+
+[2.3.7]: https://github.com/pronamic/wp-pronamic-pay-paypal/compare/v2.3.6...v2.3.7
+
 ## [2.3.6] - 2023-10-13
 
 ### Commits
