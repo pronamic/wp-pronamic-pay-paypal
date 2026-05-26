@@ -47,6 +47,7 @@
 		"php": ">=7.4",
 		"ext-intl": "*",
 		"ext-json": "*",
+		"automattic/jetpack-autoloader": "^5.0",
 		"justinrainbow/json-schema": "^6.8",
 		"pronamic/wp-http": "^1.2",
 		"pronamic/wp-money": "^2.4",
