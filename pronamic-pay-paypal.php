@@ -2,10 +2,10 @@
 /**
  * Pronamic Pay PayPal Add-On
  *
- * @package           Pronamic\WordPress\Pay\Gateways\PayPal
- * @author            Pronamic <info@pronamic.eu>
- * @copyright         2021 Pronamic
- * @license           GPL-2.0-or-later
+ * @package   Pronamic\WordPress\Pay\Gateways\PayPal
+ * @author    Pronamic <info@pronamic.eu>
+ * @copyright 2005-2026 Pronamic
+ * @license   GPL-2.0-or-later
  *
  * @wordpress-plugin
  * Plugin Name: Pronamic Pay PayPal Add-On
