@@ -1,5 +1,5 @@
 === Pronamic Pay PayPal Add-On ===
-Contributors: pronamic, remcotolsma 
+Contributors: pronamic, remcotolsma
 Tags: pronamic, pay, paypal, add-on
 Requires at least: 4.7
 Tested up to: 6.2
