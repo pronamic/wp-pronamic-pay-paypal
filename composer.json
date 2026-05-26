@@ -1,5 +1,6 @@
 {
 	"name": "wp-pay-gateways/paypal",
+	"version": "2.4.0",
 	"description": "PayPal driver for the WordPress payment processing library.",
 	"keywords": [
 		"wordpress",

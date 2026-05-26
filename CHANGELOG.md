@@ -6,6 +6,30 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased][unreleased]
 
+## [2.4.0] - 2026-05-26
+
+### Added
+
+- Added a direct plugin bootstrap in the main plugin file with an `ABSPATH` guard and gateway registrations.
+- Added `.distignore` and Composer build scripts for staged distributions and plugin archives.
+
+### Changed
+
+- Replaced the legacy Grunt-based distribution flow with Composer + WP-CLI build tooling.
+- Updated JavaScript development tooling versions in `package.json`.
+- Updated plugin source and test files for compatibility with current dependencies.
+
+### Composer
+
+- Added `automattic/jetpack-autoloader` `v5.0.18` (exact from `composer.lock`): upstream tag notes a 15.9-a.3 changelog wording polish in the Jetpack sync. [Release notes](https://github.com/Automattic/jetpack-autoloader/releases/tag/v5.0.18)
+- Updated `justinrainbow/json-schema` to `6.8.2` (exact from `composer.lock`): includes a fix to align with the latest JSON Schema test suite. [Release notes](https://github.com/jsonrainbow/json-schema/releases/tag/6.8.2)
+- Updated `pronamic/wp-money` to `v2.4.4` (exact from `composer.lock`): includes exception message escaping and static analysis/code quality fixes. [Release notes](https://github.com/pronamic/wp-money/releases/tag/v2.4.4)
+- Updated `wp-pay/core` to `v4.33.0` (exact from `composer.lock`): adds `pronamic_pay_register_payment_methods` and moves default payment method registration out of core. [Release notes](https://github.com/pronamic/wp-pay-core/releases/tag/v4.33.0)
+- Added `wp-cli/dist-archive-command` `v3.1.0` (exact from `composer.lock`, dev): improves archive behavior (including cleanup of existing zip entries) and command output details. [Release notes](https://github.com/wp-cli/dist-archive-command/releases/tag/v3.1.0)
+- Updated `wp-cli/wp-cli-bundle` to `v2.12.0` (exact from `composer.lock`, dev): updates the WP-CLI bundle to the 2.12 release line. [Release notes](https://github.com/wp-cli/wp-cli-bundle/releases/tag/v2.12.0)
+
+Full set of changes: [`2.3.7...2.4.0`][2.4.0]
+
 ## [2.3.7] - 2024-12-17
 
 ### Commits
@@ -129,7 +153,8 @@ Full set of changes: [`2.2.2...2.3.0`][2.3.0]
 ## [1.0.0] - 2021-08-05
 - First release.
 
-[unreleased]: https://github.com/pronamic/wp-pronamic-pay-paypal/compare/2.2.2...HEAD
+[unreleased]: https://github.com/pronamic/wp-pronamic-pay-paypal/compare/v2.4.0...HEAD
+[2.4.0]: https://github.com/pronamic/wp-pronamic-pay-paypal/compare/v2.3.7...v2.4.0
 [2.2.2]: https://github.com/pronamic/wp-pronamic-pay-paypal/compare/2.2.1...2.2.2
 [2.2.1]: https://github.com/pronamic/wp-pronamic-pay-paypal/compare/2.2.0...2.2.1
 [2.2.0]: https://github.com/pronamic/wp-pronamic-pay-paypal/compare/2.1.0...2.2.0
