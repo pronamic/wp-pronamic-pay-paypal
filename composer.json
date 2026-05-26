@@ -47,10 +47,10 @@
 		"php": ">=7.4",
 		"ext-intl": "*",
 		"ext-json": "*",
-		"justinrainbow/json-schema": "^5.2",
+		"justinrainbow/json-schema": "^6.8",
 		"pronamic/wp-http": "^1.2",
-		"pronamic/wp-money": "^2.2",
-		"wp-pay/core": "^4.6"
+		"pronamic/wp-money": "^2.4",
+		"wp-pay/core": "^4.33"
 	},
 	"require-dev": {
 		"bamarni/composer-bin-plugin": "^1.4",
