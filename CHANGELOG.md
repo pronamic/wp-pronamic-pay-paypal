@@ -6,6 +6,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased][unreleased]
 
+## [2.4.1] - 2026-11-02
+
+### Composer
+
+- Changed `automattic/jetpack-autoloader` from `^5.0` to `^5.0 || ^6.0` to allow Jetpack Autoloader 6.x. Jetpack Autoloader 6.0.0 only raises its minimum PHP version to 7.4. Release notes: https://github.com/Automattic/jetpack-autoloader/blob/v6.0.0/CHANGELOG.md
+- Changed `pronamic/wp-coding-standards` (dev) from `^1.3` to `^2.4`, locked at `v2.4.0`. Version 1.x depends on `wp-coding-standards/wpcs` 2.3, which Composer now blocks because of security advisory PKSA-mh9b-91zm-m1gy; 2.x uses WPCS 3. Release notes: https://github.com/pronamic/wp-coding-standards/releases/tag/v2.4.0
+- Changed `slevomat/coding-standard` (dev) from `^6.4` to `^8.15`, locked at `8.22.1`, as required by the newer PHP_CodeSniffer installer. Sniffs that are new in these versions are excluded in `phpcs.xml.dist` for now, so no code changes were needed. Release notes: https://github.com/slevomat/coding-standard/releases/tag/8.22.1
+
+### Other
+
+- Added a GitHub workflow that deploys releases to the Pronamic WordPress directory.
+
+Full set of changes: [`2.4.0...2.4.1`][2.4.1]
+
 ## [2.4.0] - 2026-05-26
 
 ### Added
@@ -153,7 +167,8 @@ Full set of changes: [`2.2.2...2.3.0`][2.3.0]
 ## [1.0.0] - 2021-08-05
 - First release.
 
-[unreleased]: https://github.com/pronamic/wp-pronamic-pay-paypal/compare/v2.4.0...HEAD
+[unreleased]: https://github.com/pronamic/wp-pronamic-pay-paypal/compare/v2.4.1...HEAD
+[2.4.1]: https://github.com/pronamic/wp-pronamic-pay-paypal/compare/v2.4.0...v2.4.1
 [2.4.0]: https://github.com/pronamic/wp-pronamic-pay-paypal/compare/v2.3.7...v2.4.0
 [2.2.2]: https://github.com/pronamic/wp-pronamic-pay-paypal/compare/2.2.1...2.2.2
 [2.2.1]: https://github.com/pronamic/wp-pronamic-pay-paypal/compare/2.2.0...2.2.1
