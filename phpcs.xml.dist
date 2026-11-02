@@ -13,6 +13,10 @@
 		<exclude name="WordPress.Files.FileName.NotHyphenatedLowercase"/>
 
 		<exclude name="WordPress.Security.SafeRedirect.wp_redirect_wp_redirect"/>
+
+		<!-- New in WPCS 3, excluded to keep this update free of code changes. -->
+		<exclude name="Squiz.Functions.MultiLineFunctionDeclaration.SpaceAfterFunction"/>
+		<exclude name="Universal.Operators.DisallowStandalonePostIncrementDecrement.PostIncrementFound"/>
 	</rule>
 
 	<rule ref="WordPress.WP.I18n">
@@ -70,11 +74,16 @@
 		<exclude name="SlevomatCodingStandard.Variables.DisallowSuperGlobalVariable.DisallowedSuperGlobalVariable" />
 
 		<exclude name="SlevomatCodingStandard.Whitespaces.DuplicateSpaces.DuplicateSpaces" />
-	</rule>
 
-	<rule ref="SlevomatCodingStandard.Classes.UnusedPrivateElements.WriteOnlyProperty">
-		<exclude-pattern>src/Client.php</exclude-pattern>
-		<exclude-pattern>src/Gateway.php</exclude-pattern>
+		<!-- New in Slevomat Coding Standard 7/8, excluded to keep this update free of code changes. -->
+		<exclude name="SlevomatCodingStandard.Arrays.AlphabeticallySortedByKeys.IncorrectKeyOrder" />
+		<exclude name="SlevomatCodingStandard.Classes.RequireAbstractOrFinal.ClassNeitherAbstractNorFinal" />
+		<exclude name="SlevomatCodingStandard.Complexity.Cognitive.ComplexityTooHigh" />
+		<exclude name="SlevomatCodingStandard.Functions.FunctionLength.FunctionLength" />
+		<exclude name="SlevomatCodingStandard.Functions.RequireTrailingCommaInCall.MissingTrailingComma" />
+		<exclude name="SlevomatCodingStandard.Namespaces.ReferenceUsedNamesOnly.ReferenceViaFullyQualifiedNameWithoutNamespace" />
+		<exclude name="SlevomatCodingStandard.TypeHints.ClassConstantTypeHint.MissingNativeTypeHint" />
+		<exclude name="SlevomatCodingStandard.TypeHints.ClassConstantTypeHint.UselessVarAnnotation" />
 	</rule>
 
 	<rule ref="VariableAnalysis.CodeAnalysis.VariableAnalysis.UnusedVariable">
